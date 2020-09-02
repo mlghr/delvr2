@@ -1,7 +1,7 @@
 from flask import Flask, render_template, redirect, session, flash
 from flask_debugtoolbar import DebugToolbarExtension
 from models import connect_db, db, User, Character
-from forms import UserForm
+from forms import UserForm, CCForm
 from sqlalchemy.exc import IntegrityError
 
 
@@ -64,6 +64,18 @@ def register_user():
 
     return render_template('register.html', form=form)
 
+
+@app.route('/new')
+def new_character():
+    if "user_id" not in session:
+        flash("Please login first!")
+        return redirect('/')
+
+    form = CCForm()
+    if form.validate_on_submit():
+        text = form.text.data
+        new_char = Character(text=text, user_id=session['user_id'])
+    return render_template('new.html', form=form)
 
 @app.route('/characters')
 def show_characters():
