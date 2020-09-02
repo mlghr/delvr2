@@ -15,3 +15,5 @@ class CCForm(FlaskForm):
     background = SelectField("Background", validators=[InputRequired()])
     equipment = SelectField("Equipment", validators=[InputRequired()])
     origin = SelectField("Place of Origin", validators=[InputRequired()])
+
+#class CampaignForm(FlaskForm)

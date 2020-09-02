@@ -34,7 +34,7 @@ class User(db.Model):
         return cls(username=username, password=hashed_utf8)
 
     @classmethod
-    def authenticate(cls, usuername, pwd):
+    def authenticate(cls, username, pwd):
         """validate that user exists & password is correct
 
         return user if valid; else return false
@@ -64,3 +64,13 @@ class Character(db.Model):
     # campaign_id = db.Column(db.Integer, db.Foreignkey('characters.id'))
 
     user = db.relationship('User', backref="characters")
+    #campaign = db.relationship('Campaign', backref="characters")
+
+#class Campaign(db.Model):
+#    __tablename__ = 'campaigns'
+#
+#    id = db.Column(db.Integer, primary_key=True, autoincrement=True) 
+#    title = db.Column(db.Text, nullable=False)
+#    created_at = db.Column(db.DateTime, default=datetime.datetime.utcnow)
+#    char_enroll = db.Column(db.Integer)
+

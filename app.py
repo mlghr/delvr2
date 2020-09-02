@@ -32,7 +32,7 @@ def login_user():
         if user:
             flash(f"Welcome Back, {user.username}!")
             session['user_id'] = user.id
-            return redirect('/tweets')
+            return redirect('/characters')
         else: 
             form.username.errors = ['Invalid username/password.']
 
@@ -60,36 +60,36 @@ def register_user():
             return render_template('register.html', form=form)
         session['user_id'] = new_user.id
         flash('Welcome! Succesfully created your account!')
-        redirect('/cc')
+        redirect('/characters')
 
     return render_template('register.html', form=form)
 
 
-@app.route('/cc')
-def show_character():
+@app.route('/characters')
+def show_characters():
     if "user_id" not in session:
         flash("Please login first!")
         return redirect('/')
 
-    form = TweetForm()
-    all_tweets = Tweet.query.all()
+    form = CCForm()
+    all_chars = Character.query.all()
     if form.validate_on_submit():
         text = form.text.data
-        new_tweet = Tweet(text=text, user_id=session['user_id'])
-    return render_template('tweets.html', form=form)
+        new_chars = Character(text=text, user_id=session['user_id'])
+    return render_template('characters.html', form=form)
 
-@app.route('/cc/<int_id>', methods=['POST'])
-def delete_tweet(id):
+@app.route('/characters/<int_id>', methods=['POST'])
+def delete_character(id):
     """Delete Character"""
     if 'user_id' not in session:
         flash('please login first!')
-        return redirect('/cc')
+        return redirect('/characters')
 
     character = Character.query.get_or_404(id)
-    if tweet.user_id == session['user_id']:
+    if character.user_id == session['user_id']:
         db.session.delete(character)
         db.session.commit()
-        flash("Tweet deleted!")
-        return redirect('/cc')
+        flash("Character deleted!")
+        return redirect('/characters')
     flash("Permission denied")
-    return redirect('/cc')
+    return redirect('/characters')
