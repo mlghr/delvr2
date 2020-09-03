@@ -4,20 +4,6 @@
 {% block content %}
 <h1>Viewing Characters</h1>
 
-<form method="POST">
-    {{ form.hidden_tag() }}
-
-    {% for field in form
-     if field.widget.input_type != 'hidden' %}
-        <p>
-            {{ field.label }}
-            {{ field(class_="form-control") }} 
-         {% for error in field.errors%}
-         <button class="btn btn-primary" type="submit">Post</button>
-         {% endfor %}
-        </p>
-    {% endfor %}
-
     <ul>
         {% for character in characters %}
         <div>
@@ -30,7 +16,7 @@
                     </p>
                         <b>{{ character.user.username }}</b> made - {{ character.name }}
                         {% if session['user_id'] == character.user_id %}
-                        <form action="/tweets/delete" style="display:inline">
+                        <form action="/characters/delete" style="display:inline">
                             <button class="btn btn-sm"></button>
                         </form>
                         {% endif %}
@@ -39,7 +25,9 @@
         </div>
         
         {% endfor %}
-
+        <form action="/new">
+            <button class="btn btn-success">Create Character</button>
+        </form>
     </ul>
 </form>
 

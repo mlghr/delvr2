@@ -59,7 +59,7 @@ def register_user():
             form.username.errors.append('Username taken, choose another')
             return render_template('register.html', form=form)
         session['user_id'] = new_user.id
-        flash('Welcome! Succesfully created your account!')
+        flash(' -Account succesfully created-')
         redirect('/characters')
 
     return render_template('register.html', form=form)
