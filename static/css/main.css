@@ -1,3 +1,7 @@
 body {
     background-color: slategray;
 }
+
+.border {
+    border-width:3px !important;
+}

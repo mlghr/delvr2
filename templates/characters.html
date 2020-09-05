@@ -15,7 +15,7 @@
                         <p class="card-text">
                             {{character.name}}
                         </p>
-                            <b>{{ character.user.username }}</b> made - {{ character.name }}
+                            <b>{{ character.user.username }}</b> created {{ character.name }}
                             {% if session['user_id'] == character.user_id %}
                             <form action="/characters/delete" style="display:inline">
                                 <button class="btn btn-sm"></button>

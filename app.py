@@ -78,7 +78,7 @@ def new_character():
         return redirect('/characters')
     return render_template('new.html', form=form)
 
-@app.route('/characters')
+@app.route('/characters', methods=['GET', 'POST'])
 def show_characters():
     if "user_id" not in session:
         flash("Please login first!")
