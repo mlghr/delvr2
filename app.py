@@ -106,3 +106,19 @@ def delete_character(id):
         return redirect('/characters')
     flash("Permission denied")
     return redirect('/characters')
+
+@app.route('/characters/<int_id>', methods=['POST'])
+def edit_character(id):
+    """Edit Character"""
+    if 'user_id' not in session:
+        flash('please login first!')
+        return redirect('/characters')
+
+    character = Character.query.get_or_404(id)
+    if character.user_id == session['user_id']:
+        db.session.edit(character)
+        db.session.commit()
+        flash("Changes saved!")
+        return redirect('/characters')
+    flash("Permission denied")
+    return redirect('/characters')
