@@ -1,6 +1,6 @@
 from flask import Flask, render_template, redirect, session, flash
 from flask_debugtoolbar import DebugToolbarExtension
-from models import connect_db, db, User, Character
+from models import connect_db, db, User, Character #, Campaign
 from forms import UserForm, CCForm
 from sqlalchemy.exc import IntegrityError
 
@@ -59,7 +59,7 @@ def register_user():
             form.username.errors.append('Username taken, choose another')
             return render_template('register.html', form=form)
         session['user_id'] = new_user.id
-        flash(' -Account succesfully created-')
+        flash('-Account succesfully created-')
         redirect('/characters')
 
     return render_template('register.html', form=form)
@@ -75,9 +75,10 @@ def new_character():
     if form.validate_on_submit():
         text = form.text.data
         new_char = Character(text=text, user_id=session['user_id'])
+        return redirect('/characters')
     return render_template('new.html', form=form)
 
-@app.route('/characters')
+@app.route('/characters', methods=['GET', 'POST'])
 def show_characters():
     if "user_id" not in session:
         flash("Please login first!")
@@ -102,6 +103,22 @@ def delete_character(id):
         db.session.delete(character)
         db.session.commit()
         flash("Character deleted!")
+        return redirect('/characters')
+    flash("Permission denied")
+    return redirect('/characters')
+
+@app.route('/characters/<int_id>', methods=['POST'])
+def edit_character(id):
+    """Edit Character"""
+    if 'user_id' not in session:
+        flash('please login first!')
+        return redirect('/characters')
+
+    character = Character.query.get_or_404(id)
+    if character.user_id == session['user_id']:
+        db.session.edit(character)
+        db.session.commit()
+        flash("Changes saved!")
         return redirect('/characters')
     flash("Permission denied")
     return redirect('/characters')

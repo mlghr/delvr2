@@ -2,33 +2,35 @@
 {% block title %}Character Sheet{% endblock %}
 
 {% block content %}
-<h1>Viewing Characters</h1>
+<div class="container">
+    <h1>Viewing Characters</h1>
 
-    <ul>
-        {% for character in characters %}
-        <div>
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title text-info"> {{character.user.username}} </h5>
-                    <h6 class="card-subtitle mb-2 text-muted">Date</h6>
-                    <p class="card-text">
-                        {{character.name}}
-                    </p>
-                        <b>{{ character.user.username }}</b> made - {{ character.name }}
-                        {% if session['user_id'] == character.user_id %}
-                        <form action="/characters/delete" style="display:inline">
-                            <button class="btn btn-sm"></button>
-                        </form>
-                        {% endif %}
+        <ul>
+            {% for character in characters %}
+            <div>
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title text-info"> {{character.user.username}} </h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Date</h6>
+                        <p class="card-text">
+                            {{character.name}}
+                        </p>
+                            <b>{{ character.user.username }}</b> created {{ character.name }}
+                            {% if session['user_id'] == character.user_id %}
+                            <form action="/characters/delete" style="display:inline">
+                                <button class="btn btn-sm"></button>
+                            </form>
+                            {% endif %}
+                    </div>
                 </div>
             </div>
-        </div>
-        
-        {% endfor %}
-        <form action="/new">
-            <button class="btn btn-success">Create Character</button>
-        </form>
-    </ul>
-</form>
+
+            {% endfor %}
+            <form action="/new">
+                <button class="btn btn-success">Create Character</button>
+            </form>
+        </ul>
+    </form>
+</div>
 
 {% endblock %}
