@@ -72,26 +72,28 @@ def new_character():
         return redirect('/')
 
     form = CCForm()
+
     if form.validate_on_submit():
-        text = form.text.data
-        new_char = Character(text=text, user_id=session['user_id'])
-        db.session.add(new_char)
+        name = form.name.data
+        c_class = form.c_class.data
+        race = form.race.data
+        background = form.background.data
+        equipment = form.equipment.data
+        new_chars = Character(name=name, c_class=c_class, race=race, background=background, equipment=equipment, user_id=session['user_id'])
+        db.session.add(new_chars)
         db.session.commit()
         return redirect('/characters')
+        
     return render_template('new.html', form=form)
 
-@app.route('/characters', methods=['GET'])
+@app.route('/characters', methods=['GET', 'POST'])
 def show_characters():
     if "user_id" not in session:
         flash("Please login first!")
         return redirect('/')
 
-    form = CCForm()
     characters = Character.query.all()
-    if form.validate_on_submit():
-        text = form.text.data
-        new_chars = Character(text=text, user_id=session['user_id'])
-    return render_template('characters.html', form=form)
+    return render_template('characters.html', characters=characters)
 
 @app.route('/characters/<int_id>', methods=['POST'])
 def delete_character(id):
@@ -118,8 +120,6 @@ def edit_character(id):
 
     character = Character.query.get_or_404(id)
     if character.user_id == session['user_id']:
-        db.session.add(character)
-        db.session.commit()
         flash("Changes saved!")
         return redirect('/characters')
     flash("Permission denied")
