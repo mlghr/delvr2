@@ -65,7 +65,7 @@ def register_user():
     return render_template('register.html', form=form)
 
 
-@app.route('/new')
+@app.route('/characters/new', methods=['POST'])
 def new_character():
     if "user_id" not in session:
         flash("Please login first!")
@@ -81,9 +81,12 @@ def new_character():
         equipment = form.equipment.data
         new_chars = Character(name=name, c_class=c_class, race=race, background=background, equipment=equipment, user_id=session['user_id'])
         db.session.add(new_chars)
-        db.session.commit()
+        try:
+            db.session.commit()
+        except IntegrityError:
+            form.name.errors.append('Username taken, choose another')
         return redirect('/characters')
-        
+
     return render_template('new.html', form=form)
 
 @app.route('/characters', methods=['GET', 'POST'])
@@ -95,7 +98,7 @@ def show_characters():
     characters = Character.query.all()
     return render_template('characters.html', characters=characters)
 
-@app.route('/characters/<int_id>', methods=['POST'])
+@app.route('/characters/<int:user_id>', methods=['POST'])
 def delete_character(id):
     """Delete Character"""
     if 'user_id' not in session:
@@ -111,7 +114,7 @@ def delete_character(id):
     flash("Permission denied")
     return redirect('/characters')
 
-@app.route('/characters/<int_id>', methods=['POST'])
+@app.route('/characters/<int:user_id>', methods=['POST'])
 def edit_character(id):
     """Edit Character"""
     if 'user_id' not in session:
