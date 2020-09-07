@@ -1,6 +1,6 @@
 from flask import Flask, render_template, redirect, session, flash
 from flask_debugtoolbar import DebugToolbarExtension
-from models import connect_db, db, User, Character #, Campaign
+from models import connect_db, db, User, Character # Campaign
 from forms import UserForm, CCForm
 from sqlalchemy.exc import IntegrityError
 
@@ -59,7 +59,7 @@ def register_user():
             form.username.errors.append('Username taken, choose another')
             return render_template('register.html', form=form)
         session['user_id'] = new_user.id
-        flash('-Account succesfully created-')
+        flash('Account succesfully created')
         redirect('/characters')
 
     return render_template('register.html', form=form)
@@ -75,17 +75,19 @@ def new_character():
     if form.validate_on_submit():
         text = form.text.data
         new_char = Character(text=text, user_id=session['user_id'])
+        db.session.add(new_char)
+        db.session.commit()
         return redirect('/characters')
     return render_template('new.html', form=form)
 
-@app.route('/characters', methods=['GET', 'POST'])
+@app.route('/characters', methods=['GET'])
 def show_characters():
     if "user_id" not in session:
         flash("Please login first!")
         return redirect('/')
 
     form = CCForm()
-    all_chars = Character.query.all()
+    characters = Character.query.all()
     if form.validate_on_submit():
         text = form.text.data
         new_chars = Character(text=text, user_id=session['user_id'])
@@ -116,7 +118,7 @@ def edit_character(id):
 
     character = Character.query.get_or_404(id)
     if character.user_id == session['user_id']:
-        db.session.edit(character)
+        db.session.add(character)
         db.session.commit()
         flash("Changes saved!")
         return redirect('/characters')

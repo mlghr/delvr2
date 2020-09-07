@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 
@@ -61,15 +63,15 @@ class Character(db.Model):
     origin = db.Column(db.Text, nullable=False)
 
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-    # campaign_id = db.Column(db.Integer, db.Foreignkey('characters.id'))
+    # campaign_id = db.Column(db.Integer, db.ForeignKey('campaigns.id'))
 
     user = db.relationship('User', backref="characters")
-    #campaign = db.relationship('Campaign', backref="characters")
+    # campaign = db.relationship('Campaign', backref="characters")
 
 class Campaign(db.Model):
     __tablename__ = 'campaigns'
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True) 
     title = db.Column(db.Text, nullable=False)
-    #created_at = db.Column(db.DateTime, default=(datetime.utcnow))
+    created_at = db.Column(db.DateTime, default=(datetime.utcnow))
     char_enroll = db.Column(db.Integer, default=0)
