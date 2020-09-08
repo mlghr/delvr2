@@ -3,7 +3,7 @@
 
 {% block content %}
 
-    <form methods="POST" action="/characters">
+    <form methods="POST">
         {{ form.hidden_tag() }} <!--add type=hidden form fields -->
       
         {% for field in form
