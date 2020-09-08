@@ -65,7 +65,7 @@ def register_user():
     return render_template('register.html', form=form)
 
 
-@app.route('/characters/new', methods=['GET'])
+@app.route('/characters/new', methods=['GET', 'POST'])
 def new_character():
     if "user_id" not in session:
         flash("Please login first!")
