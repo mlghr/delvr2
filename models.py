@@ -70,6 +70,8 @@ class Character(db.Model):
 
     race = db.Column(db.Text, nullable=False)
 
+    equipment = db.Column(db.Text, nullable=False)
+
     background = db.Column(db.Text, nullable=False)
 
     origin = db.Column(db.Text, nullable=False)

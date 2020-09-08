@@ -66,7 +66,7 @@ def register_user():
 
 
 @app.route('/characters/new', methods=['GET', 'POST'])
-def new_character():
+def create_character():
     if "user_id" not in session:
         flash("Please login first!")
         return redirect('/')
