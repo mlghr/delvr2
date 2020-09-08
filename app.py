@@ -74,27 +74,19 @@ def new_character():
     form = CCForm()
 
     if form.validate_on_submit():
-        character = Character(name=form.name.data)
-        g.user.characters.append(character)
-        db.session.commit()
-
-        return redirect("/characters", form=form)
-
-
-    #if form.validate_on_submit():
-    #    name = form.name.data
-    #    c_class = form.c_class.data
-    #    race = form.race.data
-    #    background = form.background.data
-    #    equipment = form.equipment.data
-    #    new_chars = Character(name=name, c_class=c_class, race=race, background=background, equipment=equipment, user_id=session['user_id'])
-    #    db.session.add(new_chars)
-    #    print(f"here's {new_chars}")
-    #    try:
-    #        db.session.commit()
-    #    except IntegrityError:
-    #        form.name.errors.append('Username taken, choose another')
-    #    return redirect('/characters')
+        name = form.name.data
+        c_class = form.c_class.data
+        race = form.race.data
+        background = form.background.data
+        equipment = form.equipment.data
+        new_chars = Character(name=name, c_class=c_class, race=race, background=background, equipment=equipment, user_id=session['user_id'])
+        db.session.add(new_chars)
+        print(f"here's {new_chars}")
+        try:
+            db.session.commit()
+        except IntegrityError:
+            form.name.errors.append('Username taken, choose another')
+        return redirect('/characters')
 
     return render_template('new.html', form=form)
 
