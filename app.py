@@ -65,7 +65,7 @@ def register_user():
     return render_template('register.html', form=form)
 
 
-@app.route('/characters/new', methods=['POST'])
+@app.route('/characters/new', methods=['GET'])
 def new_character():
     if "user_id" not in session:
         flash("Please login first!")
@@ -74,22 +74,31 @@ def new_character():
     form = CCForm()
 
     if form.validate_on_submit():
-        name = form.name.data
-        c_class = form.c_class.data
-        race = form.race.data
-        background = form.background.data
-        equipment = form.equipment.data
-        new_chars = Character(name=name, c_class=c_class, race=race, background=background, equipment=equipment, user_id=session['user_id'])
-        db.session.add(new_chars)
-        try:
-            db.session.commit()
-        except IntegrityError:
-            form.name.errors.append('Username taken, choose another')
-        return redirect('/characters')
+        character = Character(name=form.name.data)
+        g.user.characters.append(character)
+        db.session.commit()
+
+        return redirect("/characters", form=form)
+
+
+    #if form.validate_on_submit():
+    #    name = form.name.data
+    #    c_class = form.c_class.data
+    #    race = form.race.data
+    #    background = form.background.data
+    #    equipment = form.equipment.data
+    #    new_chars = Character(name=name, c_class=c_class, race=race, background=background, equipment=equipment, user_id=session['user_id'])
+    #    db.session.add(new_chars)
+    #    print(f"here's {new_chars}")
+    #    try:
+    #        db.session.commit()
+    #    except IntegrityError:
+    #        form.name.errors.append('Username taken, choose another')
+    #    return redirect('/characters')
 
     return render_template('new.html', form=form)
 
-@app.route('/characters', methods=['GET', 'POST'])
+@app.route('/characters', methods=['GET'])
 def show_characters():
     if "user_id" not in session:
         flash("Please login first!")

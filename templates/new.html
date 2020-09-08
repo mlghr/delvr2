@@ -3,8 +3,7 @@
 
 {% block content %}
 
-  <div class="container">
-    <form methods="POST">
+    <form methods="POST" action="/characters">
         {{ form.hidden_tag() }} <!--add type=hidden form fields -->
       
         {% for field in form
@@ -22,10 +21,10 @@
         {% endfor %}
         <button class="btn btn-success" type="submit">Create Character</button>
       </form>
-        <form action="/characters">
+
+      <form>
           <button class="btn btn-warning">Go back</button>
-        </form>
-    </div>
+      </form>
   
 {% endblock %}
 
