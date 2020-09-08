@@ -76,6 +76,8 @@ class Character(db.Model):
 
     origin = db.Column(db.Text, nullable=False)
 
+    created_at = db.Column(db.DateTime, default=(datetime.now()))
+
     user_id = db.Column(
         db.Integer,
         db.ForeignKey('users.id', ondelete='CASCADE'),
@@ -84,49 +86,10 @@ class Character(db.Model):
 
     user = db.relationship('User')
 
+class Campaign(db.Model):
+    __tablename__ = 'campaigns'
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#class Character(db.Model):
-#    __tablename__ = 'characters'
-#
-#    id = db.Column(db.Integer, primary_key=True, autoincrement=True) 
-#    name = db.Column(db.String(30), nullable=False)
-#    c_class = db.Column(db.Text, nullable=False)
-#    race = db.Column(db.Text, nullable=False)
-#    background = db.Column(db.Text, nullable=False)
-#    equipment = db.Column(db.Text, nullable=False)
-#    origin = db.Column(db.Text, nullable=False)
-#
-#    user_id = db.Column(
-#        db.Integer,
-#        db.ForeignKey('users.id', ondelete='CASCADE'),
-#        nullable=False,
-#    )
-#
-#    user = db.relationship('User')
-#
-#
-#class Campaign(db.Model):
-#    __tablename__ = 'campaigns'
-#
-#    id = db.Column(db.Integer, primary_key=True, autoincrement=True) 
-#    title = db.Column(db.Text, nullable=False)
-#    created_at = db.Column(db.DateTime, default=(datetime.utcnow))
-#    char_enroll = db.Column(db.Integer, default=0)
-#
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True) 
+    title = db.Column(db.Text, nullable=False)
+    created_at = db.Column(db.DateTime, default=(datetime.utcnow))
+    char_enroll = db.Column(db.Integer, default=0)

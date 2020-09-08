@@ -7,28 +7,34 @@
 
         <ul>
             {% for c in characters %}
-            <div>
+            <div class="container">
+                {% if session['user_id'] == c.user_id %}
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title text-info"> {{c.user.username}} </h5>
-                        <h6 class="card-subtitle mb-2 text-muted">Date</h6>
+                        <h5 class="card-title text-info"> {{c.name.upper() }} </h5>
+                        <h6 class="card-subtitle mb-2 text-muted">{{ c.c_class.upper() }}</h6>
                         <p class="card-text">
-                            {{c.name}}
+                           Race: {{c.race.capitalize()}}
                         </p>
-                            <b>{{ c.user.username }}</b> created {{ c.name }}
-                            {% if session['user_id'] == c.user_id %}
-                            <form action="/characters/delete" style="display:inline">
-                                <button class="btn btn-sm"></button>
-                            </form>
-                            {% endif %}
+                        <p class="card-text">
+                           Equipment: {{c.equipment.capitalize()}}
+                        </p>
+                        <p class="card-text">
+                           From: {{c.origin.capitalize()}}
+                        </p>
+                        <b>{{ c.user.username }}</b> created {{ c.name }}
+                        
+                        <form style="display:inline">
+                            <button class="btn btn-danger btn-sm">X</button>
+                        </form>
+                        <form action="/characters">
+                            <button class="btn btn-success">Create Character</button>
+                        </form>
                     </div>
+                    {% endif %}
                 </div>
             </div>
-
             {% endfor %}
-            <form action="/characters/new">
-                <button class="btn btn-success">Create Character</button>
-            </form>
         </ul>
     </form>
 </div>

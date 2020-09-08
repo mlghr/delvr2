@@ -1,6 +1,6 @@
-from flask import Flask, render_template, redirect, session, flash
+from flask import Flask, render_template, redirect, session, flash, g
 from flask_debugtoolbar import DebugToolbarExtension
-from models import connect_db, db, User, Character # Campaign
+from models import connect_db, db, User, Character, Campaign
 from forms import UserForm, CCForm
 from sqlalchemy.exc import IntegrityError
 
@@ -89,7 +89,7 @@ def create_character():
             form.name.errors.append('Username taken, choose another')
         return redirect('/characters')
 
-    return render_template('new.html', form=form)
+    return render_template('new_character.html', form=form)
 
 @app.route('/characters', methods=['GET'])
 def show_characters():
@@ -100,21 +100,18 @@ def show_characters():
     characters = Character.query.all()
     return render_template('characters.html', characters=characters)
 
-@app.route('/characters/<int:user_id>', methods=['POST'])
+@app.route('/characters/<int:user_id>/delete', methods=['POST'])
 def delete_character(id):
     """Delete Character"""
-    if 'user_id' not in session:
-        flash('please login first!')
-        return redirect('/characters')
+    if not g.user:
+        flash("Access unauthorized.", "danger")
+        return redirect("/")
+    c = Character.query.get(character_id)
+    #msg = Message.query.get(message_id)
+    db.session.delete(c)
+    db.session.commit()
 
-    character = Character.query.get_or_404(id)
-    if character.user_id == session['user_id']:
-        db.session.delete(character)
-        db.session.commit()
-        flash("Character deleted!")
-        return redirect('/characters')
-    flash("Permission denied")
-    return redirect('/characters')
+    return redirect(f"/users/{g.user.id}")
 
 @app.route('/characters/<int:user_id>', methods=['POST'])
 def edit_character(id):
@@ -129,3 +126,9 @@ def edit_character(id):
         return redirect('/characters')
     flash("Permission denied")
     return redirect('/characters')
+
+@app.errorhandler(404)
+def page_not_found(e):
+    """404 NOT FOUND page."""
+
+    return render_template('404.html'), 404
