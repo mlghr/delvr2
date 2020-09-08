@@ -80,7 +80,7 @@ def create_character():
         background = form.background.data
         equipment = form.equipment.data
         origin = form.origin.data
-        new_chars = Character(name=name, c_class=c_class, race=race, background=background, equipment=equipment, user_id=session['user_id'])
+        new_chars = Character(name=name, c_class=c_class, race=race, background=background, equipment=equipment, origin=origin, user_id=session['user_id'])
         db.session.add(new_chars)
         print(f"here's {new_chars}")
         try:
