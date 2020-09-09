@@ -82,7 +82,7 @@ class Character(db.Model):
 
     campaign_id = db.Column(
         db.Integer,
-        db.ForeignKey('campaign.id'),
+        db.ForeignKey('campaigns.id'),
         nullable=False,
     )
 
