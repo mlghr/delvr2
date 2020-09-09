@@ -1,6 +1,6 @@
 from flask import Flask, render_template, redirect, session, flash, g
 from flask_debugtoolbar import DebugToolbarExtension
-from models import connect_db, db, User, Character, Campaign
+from models import connect_db, db, User, Character
 from forms import UserForm, CCForm
 from sqlalchemy.exc import IntegrityError
 
@@ -60,7 +60,7 @@ def register_user():
             return render_template('register.html', form=form)
         session['user_id'] = new_user.id
         flash('Account succesfully created')
-        redirect('/login')
+        return redirect('/login')
 
     return render_template('register.html', form=form)
 
@@ -100,14 +100,13 @@ def show_characters():
     characters = Character.query.all()
     return render_template('characters.html', characters=characters)
 
-@app.route('/characters/<int:user_id>/delete', methods=['POST'])
+@app.route('/characters/<int:characters_id>/delete', methods=['POST'])
 def delete_character(id):
     """Delete Character"""
     if not g.user:
         flash("Access unauthorized.", "danger")
         return redirect("/")
     c = Character.query.get(character_id)
-    #msg = Message.query.get(message_id)
     db.session.delete(c)
     db.session.commit()
 

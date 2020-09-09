@@ -2,12 +2,11 @@
 {% block title %}Character Sheet{% endblock %}
 
 {% block content %}
-<div class="container">
+<div class="container px-5">
     <h1 class="text-center">Viewing Characters</h1>
 
         <ul>
             {% for c in characters %}
-            <div class="container px-5">
                 {% if session['user_id'] == c.user_id %}
                 <div class="card">
                     <div class="card-body text-center">
@@ -23,19 +22,19 @@
                            Hails from the land of <b>{{c.origin.capitalize()}}</b>
                         </p>
                         <i>{{ c.user.username }}</i> created <b>{{ c.name }}</b>
-                        <form class="text-center" action="/characters/new">
-                            <button id="CCBtn" class="btn btn-success">Create New</button>
-                        </form>
-                        <form class="text-center" action="/characters/{{characters.id}}/delete">
-                            <button class="btn btn-danger">Delete</button>
-                        </form>
+                        <div>
+                            <form class="text-center" action="/characters/new" style="display:inline-block">
+                                <button id="CCBtn" class="btn btn-success">Create New</button>
+                            </form>
+                            <form class="text-center my-4" action="/characters/{{ characters.id }}/delete" style="display:inline-block">
+                                <button class="btn btn-danger">Delete</button>
+                            </form>
+                        </div>
                     </div>
                     {% endif %}
-                </div>
-            </div>
             {% endfor %}
         </ul>
-        
+
 </div>
 
 {% endblock %}
