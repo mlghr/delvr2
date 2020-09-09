@@ -21,8 +21,11 @@ class User(db.Model):
     username =  db.Column(db.Text, nullable=False, unique=True)
     password =  db.Column(db.Text, nullable=False, unique=True)
 
-    characters = db.relationship('Character', backref='character')
-    
+    character = db.relationship('Character', backref='character')
+    campaign = db.relationship('User', 
+                                secondary="campaigns",
+                                primaryjoin=(Campaign.character_id == id)
+                                )
 
     @classmethod
     def register(cls, username, pwd):
@@ -77,13 +80,13 @@ class Character(db.Model):
         nullable=False,
     )
 
-    #campaign_id = db.Column(
-    #    db.Integer,
-    #    db.ForeignKey('campaign.id'),
-    #    nullable=False,
-    #)
-#
-    #campaign = db.relationship('Campaign')
+    campaign_id = db.Column(
+        db.Integer,
+        db.ForeignKey('campaign.id'),
+        nullable=False,
+    )
+
+    campaign = db.relationship('Campaign')
 
     user = db.relationship('User')
 
@@ -95,21 +98,28 @@ class Campaign(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True) 
     title = db.Column(db.Text, nullable=False)
     created_at = db.Column(db.DateTime, default=(datetime.utcnow))
-    char_enroll = db.Column(db.Integer, default=0)
 
-#    user_id = db.Column(
-#        db.Integer,
-#        db.ForeignKey('users.id'),
-#        nullable=False,
-#    )
-#
-#    character_id = db.Column(
-#        db.Integer,
-#        db.ForeignKey('characters.id'),
-#        nullable=False,
-#    )
-#
-#    user = db.relationship('User')
-#
-#    character = db.relationship('Character')
-#
+    character_id = db.Column(
+        db.Integer,
+        db.ForeignKey('characters.id'),
+        nullable=False,
+    )
+
+class EnrolledCharacter(db.Model):
+    """characters enrolled in campaigns"""
+    __tablename__ = "enrolled"
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True) 
+    character_id = db.Column(
+        db.Integer,
+        db.ForeignKey('characters.id'),
+        nullable=False,
+    )
+    character_id = db.Column(
+        db.Integer,
+        db.ForeignKey('campaigns.id'),
+        nullable=False,
+    )
+
+    campaign = db.relationship("Campaign")
+    character = db.relationship("Character")
