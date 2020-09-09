@@ -7,28 +7,27 @@
 
         <ul>
             {% for c in characters %}
-            <div class="container">
+            <div class="container px-5">
                 {% if session['user_id'] == c.user_id %}
                 <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title text-info"> {{c.name.upper() }} </h5>
-                        <h6 class="card-subtitle mb-2 text-muted">{{ c.c_class.upper() }}</h6>
+                    <div class="card-body text-center">
+                        <h2 class="card-title text-info text-center"> <u>{{c.name.upper() }}</u></h2>
+                        <p class="card-text">Class is <b>{{ c.c_class.capitalize() }}</b></p>
                         <p class="card-text">
-                           Race: {{c.race.capitalize()}}
+                           Race is <b>{{c.race.capitalize()}}</b>
                         </p>
                         <p class="card-text">
-                           Equipment: {{c.equipment.capitalize()}}
+                           Equipment - <b>{{c.equipment.capitalize()}}</b>
                         </p>
                         <p class="card-text">
-                           From: {{c.origin.capitalize()}}
+                           Hails from the land of <b>{{c.origin.capitalize()}}</b>
                         </p>
-                        <b>{{ c.user.username }}</b> created {{ c.name }}
-                        
-                        <form style="display:inline">
-                            <button class="btn btn-danger btn-sm">X</button>
+                        <i>{{ c.user.username }}</i> created <b>{{ c.name }}</b>
+                        <form class="text-center" action="/characters/new">
+                            <button id="CCBtn" class="btn btn-success">Create New</button>
                         </form>
-                        <form action="/characters">
-                            <button class="btn btn-success">Create Character</button>
+                        <form class="text-center" action="/characters/{{characters.id}}/delete">
+                            <button class="btn btn-danger">Delete</button>
                         </form>
                     </div>
                     {% endif %}
@@ -36,7 +35,7 @@
             </div>
             {% endfor %}
         </ul>
-    </form>
+        
 </div>
 
 {% endblock %}

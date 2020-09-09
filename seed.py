@@ -1,6 +1,5 @@
-from csv import DictReader
 from app import db
-from models import User, Message, Follows
+from models import User, Character, Campaign
 
 
 db.drop_all()

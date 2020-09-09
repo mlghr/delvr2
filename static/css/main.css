@@ -1,7 +1,11 @@
 body {
-    background-color: slategray;
+    background-color: #767791c7
 }
 
 .border {
     border-width:3px !important;
+}
+
+#CCBtn {
+    margin-right: auto;
 }

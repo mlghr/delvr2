@@ -33,9 +33,9 @@ class CCForm(FlaskForm):
     choices=[("faerun", "Faerun"), ("barovia", "Barovia"), ("kalimdor", "Kalimdor")], 
     validators=[InputRequired()])
 
-#class CampaignForm(FlaskForm):
-#
-#    title = StringField("Campaign Name", validators=[InputRequired()])
+class CampaignForm(FlaskForm):
+
+    title = StringField("Campaign Name", validators=[InputRequired()])
 
 
 

@@ -60,7 +60,7 @@ def register_user():
             return render_template('register.html', form=form)
         session['user_id'] = new_user.id
         flash('Account succesfully created')
-        redirect('/characters')
+        redirect('/login')
 
     return render_template('register.html', form=form)
 
