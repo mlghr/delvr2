@@ -1,6 +1,6 @@
-from flask import Flask, render_template, redirect, session, flash
+from flask import Flask, render_template, redirect, session, flash, g
 from flask_debugtoolbar import DebugToolbarExtension
-from models import connect_db, db, User, Character #, Campaign
+from models import connect_db, db, User, Character, Campaign
 from forms import UserForm, CCForm
 from sqlalchemy.exc import IntegrityError
 
@@ -59,55 +59,61 @@ def register_user():
             form.username.errors.append('Username taken, choose another')
             return render_template('register.html', form=form)
         session['user_id'] = new_user.id
-        flash('-Account succesfully created-')
-        redirect('/characters')
+        flash('Account succesfully created')
+        redirect('/login')
 
     return render_template('register.html', form=form)
 
 
-@app.route('/new')
-def new_character():
+@app.route('/characters/new', methods=['GET', 'POST'])
+def create_character():
     if "user_id" not in session:
         flash("Please login first!")
         return redirect('/')
 
     form = CCForm()
-    if form.validate_on_submit():
-        text = form.text.data
-        new_char = Character(text=text, user_id=session['user_id'])
-        return redirect('/characters')
-    return render_template('new.html', form=form)
 
-@app.route('/characters', methods=['GET', 'POST'])
+    if form.validate_on_submit():
+        name = form.name.data
+        c_class = form.c_class.data
+        race = form.race.data
+        background = form.background.data
+        equipment = form.equipment.data
+        origin = form.origin.data
+        new_chars = Character(name=name, c_class=c_class, race=race, background=background, equipment=equipment, origin=origin, user_id=session['user_id'])
+        db.session.add(new_chars)
+        print(f"here's {new_chars}")
+        try:
+            db.session.commit()
+        except IntegrityError:
+            form.name.errors.append('Username taken, choose another')
+        return redirect('/characters')
+
+    return render_template('new_character.html', form=form)
+
+@app.route('/characters', methods=['GET'])
 def show_characters():
     if "user_id" not in session:
         flash("Please login first!")
         return redirect('/')
 
-    form = CCForm()
-    all_chars = Character.query.all()
-    if form.validate_on_submit():
-        text = form.text.data
-        new_chars = Character(text=text, user_id=session['user_id'])
-    return render_template('characters.html', form=form)
+    characters = Character.query.all()
+    return render_template('characters.html', characters=characters)
 
-@app.route('/characters/<int_id>', methods=['POST'])
+@app.route('/characters/<int:user_id>/delete', methods=['POST'])
 def delete_character(id):
     """Delete Character"""
-    if 'user_id' not in session:
-        flash('please login first!')
-        return redirect('/characters')
+    if not g.user:
+        flash("Access unauthorized.", "danger")
+        return redirect("/")
+    c = Character.query.get(character_id)
+    #msg = Message.query.get(message_id)
+    db.session.delete(c)
+    db.session.commit()
 
-    character = Character.query.get_or_404(id)
-    if character.user_id == session['user_id']:
-        db.session.delete(character)
-        db.session.commit()
-        flash("Character deleted!")
-        return redirect('/characters')
-    flash("Permission denied")
-    return redirect('/characters')
+    return redirect(f"/users/{g.user.id}")
 
-@app.route('/characters/<int_id>', methods=['POST'])
+@app.route('/characters/<int:user_id>', methods=['POST'])
 def edit_character(id):
     """Edit Character"""
     if 'user_id' not in session:
@@ -116,9 +122,13 @@ def edit_character(id):
 
     character = Character.query.get_or_404(id)
     if character.user_id == session['user_id']:
-        db.session.edit(character)
-        db.session.commit()
         flash("Changes saved!")
         return redirect('/characters')
     flash("Permission denied")
     return redirect('/characters')
+
+@app.errorhandler(404)
+def page_not_found(e):
+    """404 NOT FOUND page."""
+
+    return render_template('404.html'), 404

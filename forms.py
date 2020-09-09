@@ -29,13 +29,13 @@ class CCForm(FlaskForm):
     choices=[("standard", "Standard")], 
     validators=[InputRequired()])
     
-    #origin = SelectField("Place of Origin", 
-    #choices=[("place", "Cat"), ("dog", "Dog"), ("turtle", "Turtle")], 
-    #validators=[InputRequired()])
+    origin = SelectField("Place of Origin", 
+    choices=[("faerun", "Faerun"), ("barovia", "Barovia"), ("kalimdor", "Kalimdor")], 
+    validators=[InputRequired()])
 
-#class CampaignForm(FlaskForm):
-#
-#    title = StringField("Campaign Name", validators=[InputRequired()])
+class CampaignForm(FlaskForm):
+
+    title = StringField("Campaign Name", validators=[InputRequired()])
 
 
 

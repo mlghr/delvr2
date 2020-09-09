@@ -3,34 +3,39 @@
 
 {% block content %}
 <div class="container">
-    <h1>Viewing Characters</h1>
+    <h1 class="text-center">Viewing Characters</h1>
 
         <ul>
-            {% for character in characters %}
-            <div>
+            {% for c in characters %}
+            <div class="container px-5">
+                {% if session['user_id'] == c.user_id %}
                 <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title text-info"> {{character.user.username}} </h5>
-                        <h6 class="card-subtitle mb-2 text-muted">Date</h6>
+                    <div class="card-body text-center">
+                        <h2 class="card-title text-info text-center"> <u>{{c.name.upper() }}</u></h2>
+                        <p class="card-text">Class is <b>{{ c.c_class.capitalize() }}</b></p>
                         <p class="card-text">
-                            {{character.name}}
+                           Race is <b>{{c.race.capitalize()}}</b>
                         </p>
-                            <b>{{ character.user.username }}</b> created {{ character.name }}
-                            {% if session['user_id'] == character.user_id %}
-                            <form action="/characters/delete" style="display:inline">
-                                <button class="btn btn-sm"></button>
-                            </form>
-                            {% endif %}
+                        <p class="card-text">
+                           Equipment - <b>{{c.equipment.capitalize()}}</b>
+                        </p>
+                        <p class="card-text">
+                           Hails from the land of <b>{{c.origin.capitalize()}}</b>
+                        </p>
+                        <i>{{ c.user.username }}</i> created <b>{{ c.name }}</b>
+                        <form class="text-center" action="/characters/new">
+                            <button id="CCBtn" class="btn btn-success">Create New</button>
+                        </form>
+                        <form class="text-center" action="/characters/{{characters.id}}/delete">
+                            <button class="btn btn-danger">Delete</button>
+                        </form>
                     </div>
+                    {% endif %}
                 </div>
             </div>
-
             {% endfor %}
-            <form action="/new">
-                <button class="btn btn-success">Create Character</button>
-            </form>
         </ul>
-    </form>
+        
 </div>
 
 {% endblock %}
