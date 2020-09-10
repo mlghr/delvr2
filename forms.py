@@ -36,6 +36,8 @@ class CCForm(FlaskForm):
 class CampaignForm(FlaskForm):
 
     title = StringField("Campaign Name", validators=[InputRequired()])
+    description = StringField("Campaign Description", validators=[InputRequired()])
+
 
 
 

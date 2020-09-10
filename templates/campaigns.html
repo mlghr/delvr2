@@ -3,5 +3,39 @@
 
 {% block content %}
 
+<div class="container px-5">
+    <h1 class="text-center">Viewing Characters</h1>
+
+        <ul>
+            {% for c in campaigns %}
+                {% if session['user_id'] == c.user_id %}
+                <div class="card">
+                    <div class="card-body text-center">
+                        <h2 class="card-title text-info text-center"> <u>{{c.name.upper() }}</u></h2>
+                        <p class="card-text">Class is <b>{{ c.c_class.capitalize() }}</b></p>
+                        <p class="card-text">
+                           Race is <b>{{c.race.capitalize()}}</b>
+                        </p>
+                        <p class="card-text">
+                           Equipment - <b>{{c.equipment.capitalize()}}</b>
+                        </p>
+                        <p class="card-text">
+                           Hails from the land of <b>{{c.origin.capitalize()}}</b>
+                        </p>
+                        <i>{{ c.user.username }}</i> created <b>{{ c.name }}</b>
+                        <div>
+                            <form class="text-center" action="/characters/new" style="display:inline-block">
+                                <button id="CCBtn" class="btn btn-success">Create New</button>
+                            </form>
+                            <form class="text-center my-4" action="/characters/{{ characters.id }}/delete" style="display:inline-block">
+                                <button class="btn btn-danger">Delete</button>
+                            </form>
+                        </div>
+                    </div>
+                    {% endif %}
+            {% endfor %}
+        </ul>
+
+</div>
 
 {% endblock %}
