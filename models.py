@@ -44,11 +44,9 @@ class Character(db.Model):
         nullable=False,
     )
 
-    user = db.relationship('User')
-
 
 class Campaign(db.Model):
-    """A campaign. Up to 8 characters in a campaign"""
+    """A campaign. Up to 6 characters in a campaign"""
 
     __tablename__ = 'campaigns'
 

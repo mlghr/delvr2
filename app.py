@@ -65,6 +65,8 @@ def register_user():
     return render_template('register.html', form=form)
 
 
+############## CHARACTER ROUTES
+
 @app.route('/characters/new', methods=['GET', 'POST'])
 def create_character():
     if "user_id" not in session:
@@ -80,9 +82,8 @@ def create_character():
         background = form.background.data
         equipment = form.equipment.data
         origin = form.origin.data
-        new_chars = Character(name=name, c_class=c_class, race=race, background=background, equipment=equipment, origin=origin, user_id=session['user_id'])
-        db.session.add(new_chars)
-        print(f"here's {new_chars}")
+        characters = Character(name=name, c_class=c_class, race=race, background=background, equipment=equipment, origin=origin, user_id=session['user_id'])
+        db.session.add(characters)
         try:
             db.session.commit()
         except IntegrityError:
@@ -91,7 +92,7 @@ def create_character():
 
     return render_template('new_character.html', form=form)
 
-@app.route('/characters', methods=['GET'])
+@app.route('/characters', methods=['GET', 'POST'])
 def show_characters():
     if "user_id" not in session:
         flash("Please login first!")
@@ -125,6 +126,8 @@ def edit_character(id):
         return redirect('/characters')
     flash("Permission denied")
     return redirect('/characters')
+
+############# CAMPAIGN ROUTES
 
 @app.errorhandler(404)
 def page_not_found(e):

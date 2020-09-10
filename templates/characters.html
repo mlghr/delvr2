@@ -23,9 +23,7 @@
                         </p>
                         <i>{{ c.user.username }}</i> created <b>{{ c.name }}</b>
                         <div>
-                            <form class="text-center" action="/characters/new" style="display:inline-block">
-                                <button id="CCBtn" class="btn btn-success">Create New</button>
-                            </form>
+
                             <form class="text-center my-4" action="/characters/{{ characters.id }}/delete" style="display:inline-block">
                                 <button class="btn btn-danger">Delete</button>
                             </form>
@@ -33,6 +31,9 @@
                     </div>
                     {% endif %}
             {% endfor %}
+            <form class="text-center" action="/characters/new" style="display:inline-block">
+                <button id="CCBtn" class="btn btn-success">Create New</button>
+            </form>
         </ul>
 
 </div>
