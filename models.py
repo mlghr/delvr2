@@ -44,9 +44,7 @@ class Character(db.Model):
         nullable=False,
     )
 
-    campaign = db.relationship('Campaign', lazy='select', backref=db.backref('character', lazy='joined'))
-
-    user = db.relationship('User', lazy='select', backref=db.backref('character', lazy='joined'))
+    user = db.relationship('User')
 
 
 class Campaign(db.Model):
@@ -70,37 +68,30 @@ class Campaign(db.Model):
         nullable=False,
     )
 
-    character = db.relationship('Character', lazy='select', backref=db.backref('campaign', lazy='joined'))
 
-    user = db.relationship('User', lazy='select', backref=db.backref('campaign', lazy='joined'))
+class Enrolled(db.Model):
+    """characters enrolled in campaigns"""
+    __tablename__ = "enrolled"
 
-enrollment = db.Table('enrollment',
-    db.Column('user_id', db.Integer, db.ForeignKey('users.id'), primary_key=True),
-    db.Column('character_id', db.Integer, db.ForeignKey('characters.id'), primary_key=True),
-    db.Column('campaign_id', db.Integer, db.ForeignKey('campaigns.id'), primary_key=True)
-)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True) 
 
-# ------------THIS TABLE MAY NOT BE OPTIMAL ACCORDING TO SQLALCHEMY DOCS
-# class EnrolledCharacter(db.Model):
-#     """characters enrolled in campaigns"""
-#     __tablename__ = "enrolled"
-# 
-#     id = db.Column(db.Integer, primary_key=True, autoincrement=True) 
-# 
-#     character_id = db.Column(
-#         db.Integer,
-#         db.ForeignKey('characters.id'),
-#         nullable=False,
-#     )
-#     campaign_id = db.Column(
-#         db.Integer,
-#         db.ForeignKey('campaigns.id'),
-#         nullable=False,
-#     )
-# 
-#     campaign = db.relationship("Campaign")
-#     character = db.relationship("Character")
+    character_e_id = db.Column(
+        db.Integer,
+        db.ForeignKey('characters.id'),
+        primary_key=True,
+    )
 
+    campaign_e_id = db.Column(
+        db.Integer,
+        db.ForeignKey('campaigns.id'),
+        primary_key=True,
+    )
+
+    user_e_id = db.Column(
+        db.Integer,
+        db.ForeignKey('users.id'),
+        primary_key=True,
+    )
 
 class User(db.Model):
 
@@ -109,21 +100,20 @@ class User(db.Model):
     username =  db.Column(db.Text, nullable=False, unique=True)
     password =  db.Column(db.Text, nullable=False, unique=True)
 
-    character_id = db.Column(
-        db.Integer,
-        db.ForeignKey('characters.id', ondelete='CASCADE'),
-        nullable=False,
+
+    character = db.relationship(
+        "Character",
+        secondary="enrolled",
+        primaryjoin=(Enrolled.character_e_id == id),
+        secondaryjoin=(Enrolled.campaign_e_id == id)
     )
 
-    campaign_id = db.Column(
-        db.Integer,
-        db.ForeignKey('campaigns.id'),
-        nullable=False,
+    campaign = db.relationship(
+        "Campaign",
+        secondary="enrolled",
+        primaryjoin=(Enrolled.campaign_e_id == id),
+        secondaryjoin=(Enrolled.character_e_id == id)
     )
-
-    campaign = db.relationship('Campaign', lazy='select', backref=db.backref('character', lazy='joined'))
-
-    character = db.relationship('Character', lazy='select', backref=db.backref('user', lazy='joined')) 
 
     @classmethod
     def register(cls, username, pwd):
