@@ -1,7 +1,7 @@
 from flask import Flask, render_template, redirect, session, flash, g
 from flask_debugtoolbar import DebugToolbarExtension
 from models import connect_db, db, User, Character, Campaign
-from forms import UserForm, CCForm, CampaignForm
+from forms import UserForm, CharacterForm, CampaignForm
 from sqlalchemy.exc import IntegrityError
 
 
@@ -73,7 +73,7 @@ def create_character():
         flash("Please login first!")
         return redirect('/')
 
-    form = CCForm()
+    form = CharacterForm()
 
     if form.validate_on_submit():
         name = form.name.data
@@ -82,52 +82,118 @@ def create_character():
         background = form.background.data
         equipment = form.equipment.data
         origin = form.origin.data
-        characters = Character(name=name, c_class=c_class, race=race, background=background, equipment=equipment, origin=origin, user_id=session['user_id'])
-        db.session.add(characters)
-        try:
-            db.session.commit()
-        except IntegrityError:
-            form.name.errors.append('Username taken, choose another')
+
+        character = Character(
+        name=name, c_class=c_class, race=race, 
+        background=background, equipment=equipment, origin=origin, 
+        user_id=session['user_id'])
+        
+        db.session.add(character)   
+        db.session.commit()
         return redirect('/characters')
 
     return render_template('new_character.html', form=form)
 
-@app.route('/characters', methods=['GET', 'POST'])
+@app.route('/characters')
 def show_characters():
     if "user_id" not in session:
         flash("Please login first!")
-        return redirect('/')
+        return redirect('/login')
 
     characters = Character.query.all()
     return render_template('characters.html', characters=characters)
+
+@app.route('/characters/<int:user_id>/edit', methods=['POST'])
+def edit_character(id):
+    """Edit Character"""
+    if 'user_id' not in session:
+        flash('please login first!')
+        return redirect('/login')
+
+    character = Character.query.get_or_404(id)
+    if character.user_id == session['user_id']:
+        flash("Changes saved!")
+        return redirect('/characters')
+
+    flash("Permission denied")
+    return redirect('/characters')
 
 @app.route('/characters/<int:characters_id>/delete', methods=['POST'])
 def delete_character(id):
     """Delete Character"""
     if not g.user:
         flash("Access unauthorized.", "danger")
-        return redirect("/")
+        return redirect("/characters")
+
     c = Character.query.get(character_id)
+
     db.session.delete(c)
     db.session.commit()
 
     return redirect(f"/users/{g.user.id}")
 
-@app.route('/characters/<int:user_id>', methods=['POST'])
-def edit_character(id):
-    """Edit Character"""
+
+############# CAMPAIGN ROUTES
+
+@app.route('/campaigns')
+def show_campaigns():
+    """Display all active campaigns for users to join"""
+    if 'user_id'  not in session:
+        flash('please login first!')
+        return redirect('characters')
+
+    campaigns = Campaign.query.all()
+    return render_template('characters.html', campaigns=campaigns)
+
+@app.route('/campaigns/new', methods=['GET', 'POST'])
+def create_campaign():
+    if "user_id" not in session:
+        flash("Please login first!")
+        return redirect('/login')
+
+    form = CampaignForm()
+
+    if form.validate_on_submit():
+        title = form.name.data
+        description = form.description.data
+        max_players = form.race.data
+        campaign = Campaign(title=title, description=description, max_players=max_players, 
+        user_id=session['user_id'])
+
+        db.session.add(campaign)   
+        db.session.commit()
+        return redirect('/campaigns')
+
+@app.route('/campaigns/<int:user_id>/edit', methods=['POST'])
+def edit_campaign(id):
+    """Edit Campaign"""
     if 'user_id' not in session:
         flash('please login first!')
-        return redirect('/characters')
+        return redirect('/login')
 
-    character = Character.query.get_or_404(id)
-    if character.user_id == session['user_id']:
+    campaign = Campaign.query.get_or_404(id)
+    if campaign.user_id == session['user_id']:
         flash("Changes saved!")
-        return redirect('/characters')
+        return redirect('/campaigns')
+
     flash("Permission denied")
     return redirect('/characters')
 
-############# CAMPAIGN ROUTES
+@app.route('/campaign/<int:campaign_id>/delete', methods=['POST'])
+def delete_campaign(id):
+    """Delete Campaign"""
+    if not g.user:
+        flash("Access unauthorized.", "danger")
+        return redirect("/characters")
+
+    campaign = Campaign.query.get(campaign_id)
+
+    db.session.delete(campaign)
+    db.session.commit()
+
+    return redirect(f"/users/{g.user.id}")
+
+
 
 @app.errorhandler(404)
 def page_not_found(e):

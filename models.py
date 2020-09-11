@@ -8,6 +8,7 @@ db = SQLAlchemy()
 bcrypt = Bcrypt() 
 
 
+
 def connect_db(app):
     """CONNECT TO DB"""
 
@@ -41,9 +42,8 @@ class Character(db.Model):
     campaign_id = db.Column(
         db.Integer,
         db.ForeignKey('campaigns.id'),
-        nullable=False,
+        default=None
     )
-
 
 class Campaign(db.Model):
     """A campaign. Up to 6 characters in a campaign"""
@@ -51,21 +51,19 @@ class Campaign(db.Model):
     __tablename__ = 'campaigns'
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True) 
-    title = db.Column(db.Text, nullable=False)
+    title = db.Column(db.Text, default="New Campaign")
     created_at = db.Column(db.DateTime, default=(datetime.utcnow))
 
     user_id = db.Column(
         db.Integer,
         db.ForeignKey('users.id'),
-        nullable=False,
     )
 
     character_id = db.Column(
         db.Integer,
         db.ForeignKey('characters.id'),
-        nullable=False,
+        nullable=True,
     )
-
 
 class Enrolled(db.Model):
     """characters enrolled in campaigns"""
