@@ -7,7 +7,7 @@
 
         <ul>
             {% for c in characters %}
-                {% if session['user_id'] == c.user_id %}
+            {% if session['user_id'] == c.user_id %}
                 <div class="card">
                     <div class="card-body text-center">
                         <h2 class="card-title text-info text-center"> <u>{{c.name.upper() }}</u></h2>
@@ -23,16 +23,17 @@
                         </p>
                         <i>{{ c.user.username }}</i> created <b>{{ c.name }}</b>
                         <div>
-                            <form class="text-center" action="/characters/new" style="display:inline-block">
-                                <button id="CCBtn" class="btn btn-success">Create New</button>
-                            </form>
                             <form class="text-center my-4" action="/characters/{{ characters.id }}/delete" style="display:inline-block">
                                 <button class="btn btn-danger">Delete</button>
                             </form>
                         </div>
                     </div>
+                </div>
                     {% endif %}
             {% endfor %}
+            <form class="text-center" action="/characters/new" style="display:inline-block">
+                <button id="CCBtn" class="btn btn-success">Create New</button>
+            </form>
         </ul>
 
 </div>

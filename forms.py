@@ -9,7 +9,7 @@ class UserForm(FlaskForm):
 
 
 #Character creation form
-class CCForm(FlaskForm):
+class CharacterForm(FlaskForm):
 
     name = StringField("Character Name", validators=[InputRequired()])
 
@@ -33,11 +33,14 @@ class CCForm(FlaskForm):
     choices=[("faerun", "Faerun"), ("barovia", "Barovia"), ("kalimdor", "Kalimdor")], 
     validators=[InputRequired()])
 
+    campaign = SelectField("Campaign", 
+    choices=[("campaign1", "Campaign1"), ("campaign2", "Campaign2")])
+
 class CampaignForm(FlaskForm):
 
     title = StringField("Campaign Name", validators=[InputRequired()])
     description = StringField("Campaign Description", validators=[InputRequired()])
-
+    max_players = SelectField("Max Players", choices=[(1, "1"), (2, "2"), (3, "3"), (4, "4"), (5, "5"), (6, "6")])
 
 
 
