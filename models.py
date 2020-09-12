@@ -42,7 +42,6 @@ class Character(db.Model):
     campaign_id = db.Column(
         db.Integer,
         db.ForeignKey('campaigns.id'),
-        default=None
     )
 
 class Campaign(db.Model):
@@ -51,7 +50,9 @@ class Campaign(db.Model):
     __tablename__ = 'campaigns'
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True) 
-    title = db.Column(db.Text, default="New Campaign")
+    title = db.Column(db.Text)
+    description = db.Column(db.Text)
+    max_players = db.Column(db.Integer)
     created_at = db.Column(db.DateTime, default=(datetime.utcnow))
 
     user_id = db.Column(
@@ -62,8 +63,8 @@ class Campaign(db.Model):
     character_id = db.Column(
         db.Integer,
         db.ForeignKey('characters.id'),
-        nullable=True,
     )
+
 
 class Enrolled(db.Model):
     """characters enrolled in campaigns"""
@@ -97,19 +98,19 @@ class User(db.Model):
     password =  db.Column(db.Text, nullable=False, unique=True)
 
 
-    character = db.relationship(
-        "Character",
-        secondary="enrolled",
-        primaryjoin=(Enrolled.character_e_id == id),
-        secondaryjoin=(Enrolled.campaign_e_id == id)
-    )
+    character = db.relationship('Character', backref='user')
 
-    campaign = db.relationship(
-        "Campaign",
-        secondary="enrolled",
-        primaryjoin=(Enrolled.campaign_e_id == id),
-        secondaryjoin=(Enrolled.character_e_id == id)
-    )
+    #character = db.relationship(
+    #    "Character",
+    #    secondary="enrolled",
+    #    primaryjoin=(Enrolled.character_e_id == id),
+    #    secondaryjoin=(Enrolled.campaign_e_id == id),
+    #    backref="user"
+    #)
+
+    campaign = db.relationship("Campaign", backref="user")
+
+
 
     @classmethod
     def register(cls, username, pwd):

@@ -103,8 +103,8 @@ def show_characters():
     characters = Character.query.all()
     return render_template('characters.html', characters=characters)
 
-@app.route('/characters/<int:user_id>/edit', methods=['POST'])
-def edit_character(id):
+@app.route('/characters/<int:character_id>/edit', methods=['POST'])
+def edit_character(character_id):
     """Edit Character"""
     if 'user_id' not in session:
         flash('please login first!')
@@ -118,8 +118,8 @@ def edit_character(id):
     flash("Permission denied")
     return redirect('/characters')
 
-@app.route('/characters/<int:characters_id>/delete', methods=['POST'])
-def delete_character(id):
+@app.route('/characters/<int:character_id>/delete', methods=['POST'])
+def delete_character(character_id):
     """Delete Character"""
     if not g.user:
         flash("Access unauthorized.", "danger")
@@ -143,7 +143,7 @@ def show_campaigns():
         return redirect('characters')
 
     campaigns = Campaign.query.all()
-    return render_template('characters.html', campaigns=campaigns)
+    return render_template('campaigns.html', campaigns=campaigns)
 
 @app.route('/campaigns/new', methods=['GET', 'POST'])
 def create_campaign():
@@ -154,18 +154,20 @@ def create_campaign():
     form = CampaignForm()
 
     if form.validate_on_submit():
-        title = form.name.data
+        title = form.title.data
         description = form.description.data
-        max_players = form.race.data
+        max_players = form.max_players.data
         campaign = Campaign(title=title, description=description, max_players=max_players, 
         user_id=session['user_id'])
 
         db.session.add(campaign)   
         db.session.commit()
         return redirect('/campaigns')
+    
+    return render_template('new_campaign.html', form=form)
 
-@app.route('/campaigns/<int:user_id>/edit', methods=['POST'])
-def edit_campaign(id):
+@app.route('/campaigns/<int:campaign_id>/edit', methods=['POST'])
+def edit_campaign(campaign_id):
     """Edit Campaign"""
     if 'user_id' not in session:
         flash('please login first!')
@@ -180,7 +182,7 @@ def edit_campaign(id):
     return redirect('/characters')
 
 @app.route('/campaign/<int:campaign_id>/delete', methods=['POST'])
-def delete_campaign(id):
+def delete_campaign(campaign_id):
     """Delete Campaign"""
     if not g.user:
         flash("Access unauthorized.", "danger")
