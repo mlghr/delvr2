@@ -39,8 +39,8 @@ class CharacterForm(FlaskForm):
 class CampaignForm(FlaskForm):
 
     title = StringField("Campaign Name", validators=[InputRequired()])
-    description = StringField("Campaign Description", validators=[InputRequired()])
-    max_players = SelectField("Max Players", choices=[(1, "1"), (2, "2"), (3, "3"), (4, "4"), (5, "5"), (6, "6")])
+    description = StringField("Campaign Description")
+    max_players = SelectField("Max Players", choices=[(3, "3"), (4, "4"), (5, "5"), (6, "6")])
 
 
 

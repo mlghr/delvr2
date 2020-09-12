@@ -6,10 +6,18 @@
     <h1 class="text-center">Viewing Characters</h1>
 
         <ul>
+            <div class="container text-center">
+                <form class="text-center" action="/characters/new" style="display:inline-block">
+                    <button id="char-btn" class="btn btn-success">Create New</button>
+                </form>
+                <form class="text-center" action="/campaigns" style="display:inline-block">
+                    <button id="camp-btn" class="btn btn-success">View Campaigns</button>
+                </form>
+            </div>
             {% for c in characters %}
-            {% if session['user_id'] == c.user_id %}
+                {% if session['user_id'] == c.user_id %}
                 <div class="card">
-                    <div class="card-body text-center">
+                    <div class="card-body">
                         <h2 class="card-title text-info text-center"> <u>{{c.name.upper() }}</u></h2>
                         <p class="card-text">Class is <b>{{ c.c_class.capitalize() }}</b></p>
                         <p class="card-text">
@@ -21,21 +29,20 @@
                         <p class="card-text">
                            Hails from the land of <b>{{c.origin.capitalize()}}</b>
                         </p>
-                        <i>{{ c.user.username }}</i> created <b>{{ c.name }}</b>
-                        <div>
+                        <i>{{ c.user.username }}</i> created <b>{{ c.name.capitalize() }}</b>
+                        <div class="text-center">
                             <form class="text-center my-4" action="/characters/{{ characters.id }}/delete" style="display:inline-block">
                                 <button class="btn btn-danger">Delete</button>
+                            </form>
+                            <form class="text-center my-4" action="/characters/{{ characters.id }}/edit" style="display:inline-block">
+                                <button class="btn btn-warning">Edit</button>
                             </form>
                         </div>
                     </div>
                 </div>
-                    {% endif %}
+                {% endif %}
             {% endfor %}
-            <form class="text-center" action="/characters/new" style="display:inline-block">
-                <button id="CCBtn" class="btn btn-success">Create New</button>
-            </form>
         </ul>
-
 </div>
 
 {% endblock %}
