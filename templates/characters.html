@@ -2,33 +2,47 @@
 {% block title %}Character Sheet{% endblock %}
 
 {% block content %}
-<h1>Viewing Characters</h1>
+<div class="container px-5">
+    <h1 class="text-center">Viewing Characters</h1>
 
-    <ul>
-        {% for character in characters %}
-        <div>
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title text-info"> {{character.user.username}} </h5>
-                    <h6 class="card-subtitle mb-2 text-muted">Date</h6>
-                    <p class="card-text">
-                        {{character.name}}
-                    </p>
-                        <b>{{ character.user.username }}</b> made - {{ character.name }}
-                        {% if session['user_id'] == character.user_id %}
-                        <form action="/characters/delete" style="display:inline">
-                            <button class="btn btn-sm"></button>
-                        </form>
-                        {% endif %}
-                </div>
+        <ul>
+            <div class="container text-center">
+                <form class="text-center" action="/characters/new" style="display:inline-block">
+                    <button id="char-btn" class="btn btn-success">Create New</button>
+                </form>
+                <form class="text-center" action="/campaigns" style="display:inline-block">
+                    <button id="camp-btn" class="btn btn-success">View Campaigns</button>
+                </form>
             </div>
-        </div>
-        
-        {% endfor %}
-        <form action="/new">
-            <button class="btn btn-success">Create Character</button>
-        </form>
-    </ul>
-</form>
+            {% for c in characters %}
+                {% if session['user_id'] == c.user_id %}
+                <div class="card">
+                    <div class="card-body">
+                        <h2 class="card-title text-info text-center"> <u>{{c.name.upper() }}</u></h2>
+                        <p class="card-text">Class is <b>{{ c.c_class.capitalize() }}</b></p>
+                        <p class="card-text">
+                           Race is <b>{{c.race.capitalize()}}</b>
+                        </p>
+                        <p class="card-text">
+                           Equipment - <b>{{c.equipment.capitalize()}}</b>
+                        </p>
+                        <p class="card-text">
+                           Hails from the land of <b>{{c.origin.capitalize()}}</b>
+                        </p>
+                        <i>{{ c.user.username }}</i> created <b>{{ c.name.capitalize() }}</b>
+                        <div class="text-center">
+                            <form class="text-center my-4" action="/characters/{{ characters.id }}/delete" style="display:inline-block">
+                                <button class="btn btn-danger">Delete</button>
+                            </form>
+                            <form class="text-center my-4" action="/characters/{{ characters.id }}/edit" style="display:inline-block">
+                                <button class="btn btn-warning">Edit</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            {% endfor %}
+        </ul>
+</div>
 
 {% endblock %}

@@ -8,6 +8,7 @@ db = SQLAlchemy()
 bcrypt = Bcrypt() 
 
 
+
 def connect_db(app):
     """CONNECT TO DB"""
 
@@ -41,66 +42,53 @@ class Character(db.Model):
     campaign_id = db.Column(
         db.Integer,
         db.ForeignKey('campaigns.id'),
-        nullable=False,
     )
 
-    campaign = db.relationship('Campaign', lazy='select', backref=db.backref('character', lazy='joined'))
-
-    user = db.relationship('User', lazy='select', backref=db.backref('character', lazy='joined'))
-
-
 class Campaign(db.Model):
-    """A campaign. Up to 8 characters in a campaign"""
+    """A campaign. Up to 6 characters in a campaign"""
 
     __tablename__ = 'campaigns'
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True) 
-    title = db.Column(db.Text, nullable=False)
+    title = db.Column(db.Text)
+    description = db.Column(db.Text)
+    max_players = db.Column(db.Integer)
     created_at = db.Column(db.DateTime, default=(datetime.utcnow))
 
     user_id = db.Column(
         db.Integer,
         db.ForeignKey('users.id'),
-        nullable=False,
     )
 
     character_id = db.Column(
         db.Integer,
         db.ForeignKey('characters.id'),
-        nullable=False,
     )
 
-    character = db.relationship('Character', lazy='select', backref=db.backref('campaign', lazy='joined'))
 
-    user = db.relationship('User', lazy='select', backref=db.backref('campaign', lazy='joined'))
+class Enrolled(db.Model):
+    """characters enrolled in campaigns"""
+    __tablename__ = "enrolled"
 
-enrollment = db.Table('enrollment',
-    db.Column('user_id', db.Integer, db.ForeignKey('users.id'), primary_key=True),
-    db.Column('character_id', db.Integer, db.ForeignKey('characters.id'), primary_key=True),
-    db.Column('campaign_id', db.Integer, db.ForeignKey('campaigns.id'), primary_key=True)
-)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True) 
 
-# ------------THIS TABLE MAY NOT BE OPTIMAL ACCORDING TO SQLALCHEMY DOCS
-# class EnrolledCharacter(db.Model):
-#     """characters enrolled in campaigns"""
-#     __tablename__ = "enrolled"
-# 
-#     id = db.Column(db.Integer, primary_key=True, autoincrement=True) 
-# 
-#     character_id = db.Column(
-#         db.Integer,
-#         db.ForeignKey('characters.id'),
-#         nullable=False,
-#     )
-#     campaign_id = db.Column(
-#         db.Integer,
-#         db.ForeignKey('campaigns.id'),
-#         nullable=False,
-#     )
-# 
-#     campaign = db.relationship("Campaign")
-#     character = db.relationship("Character")
+    character_e_id = db.Column(
+        db.Integer,
+        db.ForeignKey('characters.id'),
+        primary_key=True,
+    )
 
+    campaign_e_id = db.Column(
+        db.Integer,
+        db.ForeignKey('campaigns.id'),
+        primary_key=True,
+    )
+
+    user_e_id = db.Column(
+        db.Integer,
+        db.ForeignKey('users.id'),
+        primary_key=True,
+    )
 
 class User(db.Model):
 
@@ -110,21 +98,20 @@ class User(db.Model):
     username =  db.Column(db.Text, nullable=False, unique=True)
     password =  db.Column(db.Text, nullable=False, unique=True)
 
-    character_id = db.Column(
-        db.Integer,
-        db.ForeignKey('characters.id', ondelete='CASCADE'),
-        nullable=False,
-    )
 
-    campaign_id = db.Column(
-        db.Integer,
-        db.ForeignKey('campaigns.id'),
-        nullable=False,
-    )
+    character = db.relationship('Character', backref='user')
 
-    campaign = db.relationship('Campaign', lazy='select', backref=db.backref('character', lazy='joined'))
+    campaign = db.relationship("Campaign", backref="user")
 
-    character = db.relationship('Character', lazy='select', backref=db.backref('user', lazy='joined')) 
+    #character = db.relationship(
+    #    "Character",
+    #    secondary="enrolled",
+    #    primaryjoin=(Enrolled.character_e_id == id),
+    #    secondaryjoin=(Enrolled.campaign_e_id == id),
+    #    backref="user"
+    #)
+
+
 
     @classmethod
     def register(cls, username, pwd):

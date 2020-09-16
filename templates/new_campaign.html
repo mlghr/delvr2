@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block body_class %}New Campaign{%endblock %}
+
+{% block content %}
+
+<form method="POST">
+    {{ form.hidden_tag() }} <!--add type=hidden form fields -->
+  
+    {% for field in form
+           if field.widget.input_type != 'hidden' %}
+  
+      <p>
+        <strong>{{ field.label }}</strong>
+        {{ field }}
+  
+        {% for error in field.errors %}
+          {{ error }}
+        {% endfor %}
+      </p>
+    
+    {% endfor %}
+    <button class="btn btn-success" type="submit">Create Campaign</button>
+  </form>
+
+  <form action="/campaigns">
+      <button class="btn btn-warning">Go back</button>
+  </form>
+
+
+
+
+{% endblock %}

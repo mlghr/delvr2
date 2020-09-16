@@ -3,12 +3,14 @@ from wtforms import StringField, BooleanField, PasswordField, SelectField
 from wtforms.validators import InputRequired
 
 class UserForm(FlaskForm):
+
     username = StringField("Username", validators=[InputRequired()])
     password = PasswordField("Password", validators=[InputRequired()])
 
 
 #Character creation form
-class CCForm(FlaskForm):
+class CharacterForm(FlaskForm):
+
     name = StringField("Character Name", validators=[InputRequired()])
 
     c_class = SelectField("Class", 
@@ -27,8 +29,20 @@ class CCForm(FlaskForm):
     choices=[("standard", "Standard")], 
     validators=[InputRequired()])
     
-    #origin = SelectField("Place of Origin", 
-    #choices=[("place", "Cat"), ("dog", "Dog"), ("turtle", "Turtle")], 
-    #validators=[InputRequired()])
+    origin = SelectField("Place of Origin", 
+    choices=[("faerun", "Faerun"), ("barovia", "Barovia"), ("kalimdor", "Kalimdor")], 
+    validators=[InputRequired()])
 
-#class CampaignForm(FlaskForm)
+    campaign = SelectField("Campaign", 
+    choices=[("campaign1", "Campaign1"), ("campaign2", "Campaign2")])
+
+class CampaignForm(FlaskForm):
+
+    title = StringField("Campaign Name", validators=[InputRequired()])
+    description = StringField("Campaign Description")
+    max_players = SelectField("Max Players", choices=[(3, "3"), (4, "4"), (5, "5"), (6, "6")])
+
+
+
+
+
