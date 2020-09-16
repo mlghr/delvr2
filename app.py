@@ -130,7 +130,7 @@ def delete_character(character_id):
     db.session.delete(c)
     db.session.commit()
 
-    return redirect(f"/users/{g.user.id}")
+    return redirect(f"/characters/{g.user.id}")
 
 
 ############# CAMPAIGN ROUTES

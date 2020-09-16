@@ -31,10 +31,10 @@
                         </p>
                         <i>{{ c.user.username }}</i> created <b>{{ c.name.capitalize() }}</b>
                         <div class="text-center">
-                            <form class="text-center my-4" action="/characters/{{ characters.id }}/delete" style="display:inline-block">
+                            <form class="text-center my-4" action="/characters/{{ c.id }}/delete" style="display:inline-block">
                                 <button class="btn btn-danger">Delete</button>
                             </form>
-                            <form class="text-center my-4" action="/characters/{{ characters.id }}/edit" style="display:inline-block">
+                            <form class="text-center my-4" action="/characters/{{ c.id }}/edit" style="display:inline-block">
                                 <button class="btn btn-warning">Edit</button>
                             </form>
                         </div>

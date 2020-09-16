@@ -4,19 +4,10 @@
 
 {% block content %}
 
-  <div class="message-404">
+  <div class="message-404 text-center">
     <h4 class="display-4">Sorry, that page doesn't exist! {{ request.status }}</h4>
-    <p class="m-3">
-      You can search app using the search box below or
-      <a href="/"><b>return to the homepage</b></a>.</p>
-    <div class="row">
-      <div class="col-sm-8 ml-auto mr-auto">
-        <form class="form-inline" action="/">
-          <input name="q" class="form-control mb-0 mr-2" placeholder="Search Delvr">
-          <button class="btn btn-default">Search</button>
-        </form>
-      </div>
-    </div>
-  </div>
+    <p class="m-3" style="display: inline-block">
+      <b>Please return to the <a href="/">homepage</a></b>
+      <b>or back to your <a href="/characters">characters</a></b>.</p>
 
 {% endblock %}
