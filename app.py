@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, session, flash, g
+from flask import Flask, render_template, redirect, session, flash
 from flask_debugtoolbar import DebugToolbarExtension
 from models import connect_db, db, User, Character, Campaign
 from forms import UserForm, CharacterForm, CampaignForm
@@ -121,7 +121,7 @@ def edit_character(character_id):
 @app.route('/characters/<int:character_id>/delete', methods=['POST'])
 def delete_character(character_id):
     """Delete Character"""
-    if not g.user:
+    if "user_id" not in session:
         flash("Access unauthorized.", "danger")
         return redirect("/characters")
 
