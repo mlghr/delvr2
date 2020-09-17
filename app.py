@@ -118,10 +118,10 @@ def edit_character(character_id):
     flash("Permission denied")
     return redirect('/characters')
 
-@app.route('/characters/<int:character_id>/delete', methods=['POST'])
+@app.route('/characters/<int:character_id>/delete', methods=['POST', 'GET'])
 def delete_character(character_id):
     """Delete Character"""
-    if not g.user:
+    if not g.get(user, None):
         flash("Access unauthorized.", "danger")
         return redirect("/characters")
 
