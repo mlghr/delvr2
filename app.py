@@ -103,7 +103,7 @@ def show_characters():
     characters = Character.query.all()
     return render_template('characters.html', characters=characters)
 
-@app.route('/characters/<int:character_id>/edit', methods=['POST'])
+@app.route('/characters/<int:character_id>/edit', methods=['POST', 'GET'])
 def edit_character(character_id):
     """Edit Character"""
     if 'user_id' not in session:
@@ -118,7 +118,7 @@ def edit_character(character_id):
     flash("Permission denied")
     return redirect('/characters')
 
-@app.route('/characters/<int:character_id>/delete', methods=['POST'])
+@app.route('/characters/<int:character_id>/delete', methods=['POST', 'GET'])
 def delete_character(character_id):
     """Delete Character"""
     if "user_id" not in session:
@@ -130,7 +130,7 @@ def delete_character(character_id):
     db.session.delete(c)
     db.session.commit()
 
-    return redirect(f"/users/{g.user.id}")
+    return redirect(f"/characters")
 
 
 ############# CAMPAIGN ROUTES
