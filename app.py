@@ -110,13 +110,30 @@ def edit_character(character_id):
         flash('please login first!')
         return redirect('/login')
 
-    character = Character.query.get_or_404(id)
-    if character.user_id == session['user_id']:
-        flash("Changes saved!")
-        return redirect('/characters')
+    character = Character.query.get_or_404(character_id)
 
-    flash("Permission denied")
-    return redirect('/characters')
+    form = CharacterForm()
+
+    if form.validate_on_submit():
+        character.name = form.name.data
+        character.c_class = form.c_class.data
+        character.race = form.race.data
+        character.background = form.background.data
+        character.equipment = form.equipment.data
+        character.origin = form.origin.data
+
+        db.session.commit()
+        return redirect("/characters")
+    if character.user_id == session['user_id']:
+        return render_template('edit.html', character=character, form=form)
+
+@app.route('/characters/<int:character_id>/enroll', methods=['GET', 'POST'])
+def enroll_character(character_id):
+    """Enroll character in specific campaign"""
+ 
+    character = Character.query.get_or_404(character_id)
+    return render_template('campaign_view.html', campaign=campaign, characters=characters)
+
 
 @app.route('/characters/<int:character_id>/delete', methods=['POST', 'GET'])
 def delete_character(character_id):
@@ -165,6 +182,18 @@ def create_campaign():
         return redirect('/campaigns')
     
     return render_template('new_campaign.html', form=form)
+
+@app.route('/campaigns/<int:campaign_id>/details', methods=['GET', 'POST'])
+def view_one_campaign(campaign_id):
+    """Shows one campaign with details about players/characters"""
+    if "user_id" not in session:
+        flash("Please login first!")
+        return redirect('/login')
+
+    characters = Character.query.all()
+    campaign = Campaign.query.get_or_404(campaign_id)
+    if campaign.user_id == session['user_id']:
+        return render_template('campaign_details.html', campaign=campaign, characters=characters)
 
 @app.route('/campaigns/<int:campaign_id>/edit', methods=['POST'])
 def edit_campaign(campaign_id):

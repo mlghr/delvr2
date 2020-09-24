@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block title %}Campaign Title Goes Here{% endblock %}
+
+{% block content %}
+    <h1>Title - {{campaign.title}}</h1>
+    {% for char in characters %}
+    <h2>Currently enrolled</h2>
+    <li>{{ char.name }}, played by - {{char.user.username}}</li>
+    {% endfor %}
+
+{% endblock %}

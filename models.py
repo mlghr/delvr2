@@ -44,6 +44,7 @@ class Character(db.Model):
         db.ForeignKey('campaigns.id'),
     )
 
+
 class Campaign(db.Model):
     """A campaign. Up to 6 characters in a campaign"""
 
@@ -65,6 +66,10 @@ class Campaign(db.Model):
         db.ForeignKey('characters.id'),
     )
 
+    db.relationship(Character, 
+                    secondary="enrolled", 
+                    backref="campaigns")
+
 
 class Enrolled(db.Model):
     """characters enrolled in campaigns"""
@@ -84,11 +89,7 @@ class Enrolled(db.Model):
         primary_key=True,
     )
 
-    user_e_id = db.Column(
-        db.Integer,
-        db.ForeignKey('users.id'),
-        primary_key=True,
-    )
+    
 
 class User(db.Model):
 

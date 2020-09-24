@@ -1,0 +1,35 @@
+@font-face {
+    font-family: medieval;
+    src: url('/static/fonts/MedievalSharp-Regular.ttf');
+    }
+
+body {
+    background-color: #698F3F;
+    font-family: medieval;
+}
+
+h1 {
+    font-family: medieval;
+
+}
+
+#welcome {
+    margin: auto;
+    padding: 100px;
+}
+
+#navbar {
+    border: 3px, solid, black;
+}
+
+.card {
+    background-color: #E7DECD;
+}
+
+.border {
+    border-width:3px !important;
+}
+
+.message-404 {
+    text-align: center;
+}

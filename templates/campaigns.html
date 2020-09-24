@@ -9,8 +9,8 @@
         <form class="text-center" action="/campaigns/new" style="display:inline-block">
             <button class="btn btn-success">Create New</button>
         </form>
-        <form class="text-center my-4" action="/campaigns/{{ campaigns.id }}/delete" style="display:inline-block">
-            <button class="btn btn-danger">Delete</button>
+        <form class="text-center my-4" action="/characters" style="display:inline-block">
+            <button class="btn btn-primary">View Characters</button>
         </form>
     </div>
         <ul>
@@ -25,6 +25,12 @@
                         <i>{{ c.user.username }}</i> created <b>{{ c.title }}</b>
                     </div>
                 </div>
+                <form action="/campaigns/{{ c.id }}/view">
+                    <button class="btn btn-primary">Details</button>
+                </form>
+                <form action="/campaigns/{{ c.id }}/enroll">
+                    <button class="btn btn-primary">Enroll</button>
+                </form>
             {% endfor %}
         </ul>
 </div>

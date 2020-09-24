@@ -3,9 +3,12 @@
 
 {% block content %}
 <h1 class="display-2 text-center">Login!</h1>
-<p class="lead text-center">No account? <a href="/register">Register</a></p>
+<p class="lead text-center">No account? <a href="/register" class="btn btn-dark">Register</a></p>
 
-<form method="POST">
+<div class="container" style="padding-right: 150px;
+                            padding-left: 150px; 
+                            margin:auto;">
+    <form method="POST">
    {{ form.hidden_tag() }}
 
    {% for field in form
@@ -18,9 +21,11 @@
         {% endfor %}
        </p>
    {% endfor %}
-    <button class="btn btn-success" type="submit">Login</button>
+    <button class="btn btn-primary" type="submit">Login</button>
     
-</form>
+    </form>
+</div>
+
 {% endblock %}
 
 

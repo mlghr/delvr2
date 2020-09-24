@@ -3,10 +3,13 @@
 
 {% block content %}
 <div class="container align-baseline">
-    <h1 class="text-center rounded border border-success">DnD Character Creator</h1>
+    <h1 id="welcome" class="text-center rounded border border-dark">Welcome to Delvr</h1>
         <div class="text-center">
             <form action="/login">
-                <button class="btn btn-success">Login</button>
+                <button class="btn btn-primary">Login</button>
+            </form>
+            <form action="/register">
+                <button class="btn btn-success">Register</button>
             </form>
         </div>
 </div>
