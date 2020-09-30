@@ -11,8 +11,8 @@
            if field.widget.input_type != 'hidden' %}
   
       <p>
-        <strong>{{ field.label }}</strong>
-        {{ field }}
+        <strong>{{ field.label(class_="campaign-form-label") }}</strong>
+        {{ field(class_="campaign-form-field") }}
   
         {% for error in field.errors %}
           {{ error }}

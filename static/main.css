@@ -1,7 +1,11 @@
+/* Custom font(s) */
+
 @font-face {
     font-family: medieval;
     src: url('/static/fonts/MedievalSharp-Regular.ttf');
     }
+
+/* General HTML elements */
 
 body {
     background-color: #698F3F;
@@ -9,25 +13,188 @@ body {
 }
 
 h1 {
+    text-align: center;
     font-family: medieval;
+    font-size: 100px;
+    text-decoration: underline;
+}
+
+
+
+/* Buttons */
+
+.login-btn  {
+    font-size: 30px;
+    background-color: #F1DB4B;
+    /* background-color: AB92BF; */
+    padding: 10px 20px;
+    border-radius: 5px;
+    display: block;
+    width: 130px;
+    margin: 10px auto 0px auto;
+}
+
+.register-btn  {
+    font-size: 30px;
+    display: inline-block;
+    background-color: #A23E48;
+    padding: 10px 20px;
+    border-radius: 5px;
+    display: block;
+    width: 150px;
+    margin: 10px auto 0px auto;
+}
+
+.create-btn {
+    font-size: 20px;
+    background-color: F1DB4B;
+    /* background-color: AB92BF; */
+    padding: 10px 20px;
+    border-radius: 5px;
+    display: block;
+    width: 150px;
+    margin: 10px auto 0px auto;
+    position: relative;
+    float: right;
+}
+
+.campaign-create-btn {
+    text-align: center;
+    font-size: 25px;
+    display: inline-block;
+    background-color: #F1DB4B;
+    padding: 5px 10px;
+    border-radius: 5px;
+    display: block;
+    width: 210px;
+    margin: 0px 30px 0px auto;
+    white-space: nowrap;
+}
+
+.characters-view-btn {
+    text-align: center;
+    font-size: 25px;
+    display: inline-block;
+    background-color:#A23E48;
+    padding: 5px 10px;
+    border-radius: 5px;
+    display: block;
+    width: 190px;
+    margin: 10px auto 0px auto;
+    white-space: nowrap;
 
 }
 
-#welcome {
-    margin: auto;
-    padding: 100px;
+.back-btn {
+    font-size: 20px;
+    text-align: center;
+    background-color: A23E48;
+    padding: 10px 20px;
+    border-radius: 5px;
+    display: block;
+    width: 100px;
+    margin: -10px auto 0px auto;
+    position: relative;
+    float: left;
+    overflow: hidden;
+    white-space: nowrap;
 }
 
-#navbar {
-    border: 3px, solid, black;
+.details-btn {
+    color: white;
+    font-size: 25px;
+    display: inline-block;
+    background-color: #785589;
+    /* background-color: #8E7DBE; */
+    /* background-color: #453F78; */
+    padding: 10px 20px;
+    border-radius: 5px;
+    display: block;
+    width: 150px;
+    margin: 10px auto 0px auto;
 }
 
-.card {
-    background-color: #E7DECD;
+/* Miscellaneous */
+
+#tag-line {
+    font-style: italic;
 }
 
-.border {
-    border-width:3px !important;
+.edit-title {
+    align-items: center;
+    font-size: 65px;
+    text-decoration: underline;
+}
+
+.navbar {
+    border-bottom: solid;
+    border-color: black;
+    border-width: thin;
+}
+
+#no-account {
+    font-style: oblique;
+}
+
+/* Form styling */
+
+.form-label {
+    font-size: 30px;
+    font-weight: bolder;
+}
+
+.form-field {
+    width: 75%;
+    height: 70%;
+    font-size: 35px;
+    margin-bottom: 1.5px;
+    text-align: center;
+    min-height: 50px;
+    max-width: 600px;
+    align-content: center;
+    position: relative;
+    float: inline-end;
+}
+
+.campaign-form-label {
+    font-size: 30px;
+}
+
+.campaign-form-field {
+    width: 75%;
+    font-size: 35px;
+    margin-bottom: 1.5px;
+    text-align: center;
+    min-height: 30px;
+    max-width: 600px;
+    align-content: center;
+    position: relative;
+    float: inline-end;
+}
+
+/* Character and Campaign cards */
+
+.character-card {
+    background-color: #F5F1E3;
+    /* background-color: #E7DECD; */
+    border-width: 2.5px;
+    border-style: solid;
+    border-color: #d3ba1a;
+}
+
+.campaign-card {
+    background-color: #F5F1E3;
+    border-width: 2.5px;
+    border-style: solid;
+    border-color: #d3ba1a;
+}
+
+.campaign-title {
+    font-size: 40px;
+}
+
+.campaign-details {
+    font-size: 20px;
 }
 
 .message-404 {

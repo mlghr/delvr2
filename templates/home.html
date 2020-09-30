@@ -2,15 +2,24 @@
 {% block title %}App{% endblock %}
 
 {% block content %}
-<div class="container align-baseline">
-    <h1 id="welcome" class="text-center rounded border border-dark">Welcome to Delvr</h1>
+<div class="container">
+    <div class="container header-box">
+        <h1 id="welcome" class="text-center">Welcome to Delvr</h1>
+        <h2 id="tag-line" class="text-center">where your fantasies become reality...</h2>
+    </div>      
         <div class="text-center">
-            <form action="/login">
-                <button class="btn btn-primary">Login</button>
-            </form>
-            <form action="/register">
-                <button class="btn btn-success">Register</button>
-            </form>
+            <div class="row">
+                <div class="col-6">
+                    <form action="/login">
+                        <button class="btn login-btn">Login</button>
+                    </form>
+                </div>
+                <div class="col-6">
+                    <form action="/register">
+                        <button class="btn register-btn">Register</button>
+                    </form>
+                </div>
+            </div>
         </div>
 </div>
 {% endblock %}

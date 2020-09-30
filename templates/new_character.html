@@ -2,29 +2,33 @@
 {% block title %}Character Sheet{% endblock %}
 
 {% block content %}
-
+<div class="container">
     <form method="POST">
         {{ form.hidden_tag() }} <!--add type=hidden form fields -->
       
         {% for field in form
                if field.widget.input_type != 'hidden' %}
       
-          <p>
-            <strong>{{ field.label }}</strong>
-            {{ field }}
-      
+          <div class="row">
+            <strong>{{ field.label(class_="form-label") }}</strong>
+              <div class="col">
+              {{ field(class_="form-field")}}
+              </div>
+          </div>
             {% for error in field.errors %}
               {{ error }}
             {% endfor %}
-          </p>
+          
+          
         
         {% endfor %}
-        <button class="btn btn-success" type="submit">Create Character</button>
+        <button class="btn create-btn" type="submit">Create Character</button>
       </form>
 
       <form action="/characters">
-          <button class="btn btn-warning">Go back</button>
+          <button class="btn back-btn">Go back</button>
       </form>
+</div>
   
 {% endblock %}
 

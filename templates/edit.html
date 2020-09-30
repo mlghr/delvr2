@@ -2,30 +2,33 @@
 {% block title %}Campaigns{% endblock %}
 
 {% block content %}
-    <h1>hi</h1>
-    <li>{{character.name}}</li>
+<div class="container">
+  <div class="row edit-title">Edit - {{ character.name }}</div>
+  <form method="POST">
+      {{ form.hidden_tag() }} <!--add type=hidden form fields -->
     
-    <form method="POST">
-        {{ form.hidden_tag() }} <!--add type=hidden form fields -->
-      
-        {% for field in form
-               if field.widget.input_type != 'hidden' %}
-      
-          <p>
-            <strong>{{ field.label }}</strong>
-            {{ field }}
-      
-            {% for error in field.errors %}
-              {{ error }}
-            {% endfor %}
-          </p>
+      {% for field in form
+             if field.widget.input_type != 'hidden' %}
+    
+        <div class="row">
+          {{ field.label(class_="form-label") }}
+            <div class="col">
+            {{ field(class_="form-field")}}
+            </div>
+        </div>
+          {% for error in field.errors %}
+            {{ error }}
+          {% endfor %}
         
-        {% endfor %}
-        <button class="btn btn-success" type="submit">Save Changes</button>
-      </form>
+        
+      
+      {% endfor %}
+      <button class="btn create-btn" type="submit">Save Changes</button>
+    </form>
 
-      <form action="/characters">
-          <button class="btn btn-warning">Go back</button>
-      </form>
+    <form action="/characters">
+        <button class="btn back-btn">Go back</button>
+    </form>
+</div>
 
 {% endblock %}

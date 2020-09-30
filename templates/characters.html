@@ -16,7 +16,7 @@
             </div>
             {% for c in characters %}
                 {% if session['user_id'] == c.user_id %}
-                <div class="card">
+                <div class="card character-card">
                     <div class="card-body">
                         <h2 class="card-title text-center"> <u>{{ c.name.upper() }}</u></h2>
                         <p class="card-text">Class is <b>{{ c.c_class.capitalize() }}</b></p>
