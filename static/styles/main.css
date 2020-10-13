@@ -9,6 +9,10 @@
 
 body {
     background-color: #698F3F;
+    /* background-image: url("http://cdn28.us1.fansshare.com/photograph/fantasy/fantasy-treehouse-wallpaper-wallpaper-2117228404.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-blend-mode: difference; */
     font-family: medieval;
 }
 
@@ -17,6 +21,10 @@ h1 {
     font-family: medieval;
     font-size: 100px;
     text-decoration: underline;
+}
+
+h2 {
+    color: black;
 }
 
 

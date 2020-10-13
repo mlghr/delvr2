@@ -1,4 +1,5 @@
-from flask import Flask, render_template, redirect, session, flash
+from flask import Flask, render_template, redirect, session, flash, request
+import requests
 from flask_debugtoolbar import DebugToolbarExtension
 from models import connect_db, db, User, Character, Campaign
 from forms import UserForm, CharacterForm, CampaignForm
@@ -69,6 +70,7 @@ def register_user():
 
 @app.route('/characters/new', methods=['GET', 'POST'])
 def create_character():
+    """Creates a new character"""
     if "user_id" not in session:
         flash("Please login first!")
         return redirect('/')
@@ -85,8 +87,9 @@ def create_character():
 
         character = Character(
         name=name, c_class=c_class, race=race, 
-        background=background, equipment=equipment, origin=origin, 
-        user_id=session['user_id'])
+        background=background, equipment=equipment,
+        origin=origin, user_id=session['user_id']
+        )
         
         db.session.add(character)   
         db.session.commit()
@@ -96,16 +99,26 @@ def create_character():
 
 @app.route('/characters')
 def show_characters():
+    """Displays all of a user's characters and allows for editing and deletion"""
     if "user_id" not in session:
         flash("Please login first!")
         return redirect('/login')
 
     characters = Character.query.all()
-    return render_template('characters.html', characters=characters)
+    baseURL = 'https://www.dnd5eapi.co/api/'
+
+    res = requests.get(f'{baseURL}classes/bard')
+    res2 = requests.get(f'{baseURL}starting-equipment/bard')
+    c_class = res.json()
+    equip = res2.json()
+    print(c_class)
+    print("I'm in between c_class and equip")
+    print(equip)
+    return render_template('characters.html', characters=characters, c_class=c_class, equip=equip)
 
 @app.route('/characters/<int:character_id>/edit', methods=['POST', 'GET'])
 def edit_character(character_id):
-    """Edit Character"""
+    """Edits the details of a Character"""
     if 'user_id' not in session:
         flash('please login first!')
         return redirect('/login')
@@ -174,8 +187,13 @@ def create_campaign():
         title = form.title.data
         description = form.description.data
         max_players = form.max_players.data
-        campaign = Campaign(title=title, description=description, max_players=max_players, 
-        user_id=session['user_id'])
+        
+        campaign = Campaign(
+        title=title, 
+        description=description, 
+        max_players=max_players, 
+        user_id=session['user_id']
+        )
 
         db.session.add(campaign)   
         db.session.commit()

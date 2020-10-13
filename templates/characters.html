@@ -19,7 +19,8 @@
                 <div class="card character-card">
                     <div class="card-body">
                         <h2 class="card-title text-center"> <u>{{ c.name.upper() }}</u></h2>
-                        <p class="card-text">Class is <b>{{ c.c_class.capitalize() }}</b></p>
+                        <p class="card-text">
+                            Class is  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#c_class-modal"><b>{{ c.c_class.capitalize() }}</b></button></p>
                         <p class="card-text">
                            Race is <b>{{c.race.capitalize()}}</b>
                         </p>
@@ -43,6 +44,43 @@
                 {% endif %}
             {% endfor %}
         </ul>
+
+        <!-- MODAL MADNESS -- ENTER IF YOU DARE -->
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+            Launch demo modal
+          </button>
+          
+          <!-- Modal -->
+          <div class="modal fade" id="c_class-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLongTitle">Class Information</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                    <!-- {% for item in c_class %}
+                        <li>{{ item }}</li>
+                    {% endfor %} -->
+
+                    {% for item in equip %}
+                        <li>{{ item }}</li>
+                    {% endfor %}
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
 </div>
+
+{% for key in name %}
+    <li> {{ key }}</li>
+    <li>{{ name[key] }}</li>
+{% endfor %}
 
 {% endblock %}
