@@ -18,7 +18,6 @@ body {
 
 h1 {
     text-align: center;
-    font-family: medieval;
     font-size: 100px;
     text-decoration: underline;
 }
@@ -161,7 +160,16 @@ h2 {
     max-width: 600px;
     align-content: center;
     position: relative;
-    float: inline-end;
+    float: right;
+}
+
+.campaign-background {
+    background-image: "character-home.png"
+}
+
+.campaign-desc {
+    text-align: center;
+    size: 100px;
 }
 
 .campaign-form-label {

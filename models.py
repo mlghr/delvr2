@@ -23,7 +23,9 @@ class Character(db.Model):
     id = db.Column(
         db.Integer,
         primary_key=True,
-    )
+        )
+
+    # c_class = character class
 
     name = db.Column(db.String(30), nullable=False)
     c_class = db.Column(db.Text, nullable=False)

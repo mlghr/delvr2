@@ -19,10 +19,16 @@
                     <div class="card-body text-center">
                         <h2 class="card-title text-info text-center campaign-title"> <u>{{c.title.upper() }}</u></h2>
                         <div class="container campaign-details">
-                            <p class="card-text">Campaign Details: <b>{{ c.description.capitalize() }}</b></p>
-                            <p class="card-text">
-                               Max players: <b>{{ c.max_players }}</b>
-                            </p>
+                            <div class="col-12">
+                                <p class="card-text">Campaign Details: <b>{{ c.description.capitalize() }}</b></p>
+                            </div>
+                            <div class="col-12">
+                                <p class="card-text">
+                                    Max players: <b>{{ c.max_players }}</b>
+                                 </p>
+                            </div>
+                            
+    
                             <i>{{ c.user.username }}</i> created <b>{{ c.title }}</b>
                         </div>
                     </div>

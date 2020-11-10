@@ -4,15 +4,16 @@
 
 {% block content %}
 
-<form method="POST">
+<div class="container">
+  <form method="POST">
     {{ form.hidden_tag() }} <!--add type=hidden form fields -->
   
     {% for field in form
            if field.widget.input_type != 'hidden' %}
   
       <p>
-        <strong>{{ field.label(class_="campaign-form-label") }}</strong>
-        {{ field(class_="campaign-form-field") }}
+        <strong>{{ field.label(class_="form-label") }}</strong>
+        {{ field(class_="form-field") }}
   
         {% for error in field.errors %}
           {{ error }}
@@ -20,12 +21,15 @@
       </p>
     
     {% endfor %}
-    <button class="btn btn-success" type="submit">Create Campaign</button>
+    <button class="btn btn-primary" type="submit">Create</button>
   </form>
 
   <form action="/campaigns">
-      <button class="btn btn-warning">Go back</button>
+    <button class="btn btn-warning">Go back</button>
   </form>
+</div>
+
+  
 
 
 

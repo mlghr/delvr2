@@ -54,6 +54,7 @@ def register_user():
         new_user = User.register(username, password)
 
         db.session.add(new_user)
+
         try :
             db.session.commit()
         except IntegrityError:
@@ -105,16 +106,34 @@ def show_characters():
         return redirect('/login')
 
     characters = Character.query.all()
-    baseURL = 'https://www.dnd5eapi.co/api/'
+    baseURL = 'https://api.open5e.com'
 
-    res = requests.get(f'{baseURL}classes/bard')
-    res2 = requests.get(f'{baseURL}starting-equipment/bard')
-    c_class = res.json()
-    equip = res2.json()
-    print(c_class)
-    print("I'm in between c_class and equip")
-    print(equip)
-    return render_template('characters.html', characters=characters, c_class=c_class, equip=equip)
+    class_res = requests.get(f'{baseURL}/classes/bard').json()
+    race_res = requests.get(f'{baseURL}/races/dwarf').json()
+    
+    ### Character class-based response variables
+    hit_dice = class_res["hit_dice"]
+    c_name = class_res["name"]
+    equipment = class_res["equipment"]
+
+    ### Race-based response variables
+    r_name = race_res["name"]
+    r_description = race_res["desc"]
+    age = race_res["age"]
+    speed = race_res["speed"]["walk"]
+    traits = race_res["traits"]
+
+    return render_template('characters.html', 
+                            characters=characters, 
+                            c_name=c_name,
+                            hit_dice=hit_dice,
+                            equipment=equipment,
+                            r_name=r_name,
+                            r_description=r_description,
+                            age=age,
+                            speed=speed,
+                            traits=traits
+                            )
 
 @app.route('/characters/<int:character_id>/edit', methods=['POST', 'GET'])
 def edit_character(character_id):
@@ -201,12 +220,38 @@ def create_campaign():
     
     return render_template('new_campaign.html', form=form)
 
+@app.route('/campaigns/<int:campaign_id>/add-character/<int:character_id>me', methods=['GET', 'POST'])
+def add_character_to_campaign(character_id, campaign_id):
+    """Adds one character to the campaign list and stores character in enrolled table"""
+    if "user_id" not in session:
+        flash("Please login first!")
+        return redirect('/login')
+
+    character = Character.query.get_or_404(character_id)
+
+    if not character:
+        flash('Character does not exist')
+
+
+    data = Enrolled(character_id=character_id, campaign_id=campaign_id)
+
+    db.session.add(data)
+    db.session.commit()
+
+    # if character not in campaign
+    
+    return render_template('campaign_character_add.html', campaign=campaign, character=character)
+
+
 @app.route('/campaigns/<int:campaign_id>/details', methods=['GET', 'POST'])
 def view_one_campaign(campaign_id):
     """Shows one campaign with details about players/characters"""
     if "user_id" not in session:
         flash("Please login first!")
         return redirect('/login')
+
+    # join statement for all enrolled characters
+
 
     characters = Character.query.all()
     campaign = Campaign.query.get_or_404(campaign_id)

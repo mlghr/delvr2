@@ -3,6 +3,11 @@
 
 {% block content %}
 
-<h1> {{ campaign.title }}</h1>
+<div class="card character-card">
+    <div class="card-body campaign-background">
+        <h2 class="card-title text-center"> <u>{{ campaign.title }}</u></h2>
+        <p class="card-text text-center">{{ campaign.description }}</p>
+    </div>
+</div>
 
 {% endblock %}

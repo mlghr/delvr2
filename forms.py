@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, BooleanField, PasswordField, SelectField
+from wtforms import StringField, BooleanField, PasswordField, SelectField, TextAreaField
 from wtforms.validators import InputRequired
 
 class UserForm(FlaskForm):
@@ -45,7 +45,7 @@ class CharacterForm(FlaskForm):
 class CampaignForm(FlaskForm):
 
     title = StringField("Campaign Name", validators=[InputRequired()])
-    description = StringField("Campaign Description")
+    description = TextAreaField("Campaign Description")
     max_players = SelectField("Max Players", choices=[(3, "3"), (4, "4"), (5, "5"), (6, "6")])
 
 
