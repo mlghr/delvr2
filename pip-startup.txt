@@ -1,0 +1,10 @@
+python -m pip install --upgrade pip
+pip install flask
+pip install flask-debugtoolbar
+pip install flask-wtf
+pip install sqlalchemy
+pip install flask-sqlalchemy
+pip install psycopg2-binary
+pip install email_validator
+pip install flask_bcrypt
+pip install datetime

@@ -4,27 +4,39 @@
 {% block content %}
 
 <div class="container px-5">
-    <h1 class="text-center">Viewing Campaigns</h1>
+    <h1 class="text-center">Campaigns</h1>
     <div class="container text-center">
         <form class="text-center" action="/campaigns/new" style="display:inline-block">
-            <button class="btn btn-success">Create New</button>
+            <button class="btn campaign-create-btn">Create Campaign</button>
         </form>
-        <form class="text-center my-4" action="/campaigns/{{ campaigns.id }}/delete" style="display:inline-block">
-            <button class="btn btn-danger">Delete</button>
+        <form class="text-center my-4" action="/characters" style="display:inline-block">
+            <button class="btn characters-view-btn">My Characters</button>
         </form>
     </div>
         <ul>
             {% for c in campaigns %}
-                <div class="card">
+                <div class="card campaign-card">
                     <div class="card-body text-center">
-                        <h2 class="card-title text-info text-center"> <u>{{c.title.upper() }}</u></h2>
-                        <p class="card-text">Campaign Details: <b>{{ c.description.capitalize() }}</b></p>
-                        <p class="card-text">
-                           Max players: <b>{{ c.max_players }}</b>
-                        </p>
-                        <i>{{ c.user.username }}</i> created <b>{{ c.title }}</b>
+                        <h2 class="card-title text-info text-center campaign-title"> <u>{{c.title.upper() }}</u></h2>
+                        <div class="container campaign-details">
+                            <div class="col-12">
+                                <p class="card-text">Campaign Details: <b>{{ c.description.capitalize() }}</b></p>
+                            </div>
+                            <div class="col-12">
+                                <p class="card-text">
+                                    Max players: <b>{{ c.max_players }}</b>
+                                 </p>
+                            </div>
+                            
+    
+                            <i>{{ c.user.username }}</i> created <b>{{ c.title }}</b>
+                        </div>
                     </div>
+                    <form action="/campaigns/{{ c.id }}/details">
+                        <button id="details" class="btn details-btn">Details</button>
+                    </form>
                 </div>
+                
             {% endfor %}
         </ul>
 </div>

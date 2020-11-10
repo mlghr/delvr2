@@ -3,9 +3,11 @@
 
 {% block content %}
 <h1 class="display-1 text-center">Sign Up!</h1>
-<p class="lead text-center border-bottom"><strong>Register to join!</strong></p>
-<div class="">
-    <form style="display: inline-block" method="POST">
+<p class="lead text-center border-bottom"><strong>Register to join</strong></p>
+<div class="container">
+    <form method="POST" style="padding-right: 150px;
+                                padding-left: 150px; 
+                                margin:auto;">
        {{ form.hidden_tag() }}
 
        {% for field in form
@@ -18,11 +20,12 @@
            {% endfor %}
            </p>
        {% endfor %}
-        <button class="btn btn-success" type="submit">Register</button>
-       
+       <button class="btn btn-success" type="submit">Register</button>
     </form>
 
-    <form action="/login">
+    <form action="/login" style="padding-right: 150px;
+                                padding-left: 150px; 
+                                margin: auto;">
         <button class="btn btn-primary">Login</button>
     </form>
 </div>

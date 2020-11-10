@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block title %}Campaign Title Goes Here{% endblock %}
+
+{% block content %}
+
+<div class="card character-card">
+    <div class="card-body campaign-background">
+        <h2 class="card-title text-center"> <u>{{ campaign.title }}</u></h2>
+        <p class="card-text text-center">{{ campaign.description }}</p>
+    </div>
+</div>
+
+{% endblock %}

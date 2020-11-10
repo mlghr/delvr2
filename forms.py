@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, BooleanField, PasswordField, SelectField
+from wtforms import StringField, BooleanField, PasswordField, SelectField, TextAreaField
 from wtforms.validators import InputRequired
 
 class UserForm(FlaskForm):
@@ -14,15 +14,21 @@ class CharacterForm(FlaskForm):
     name = StringField("Character Name", validators=[InputRequired()])
 
     c_class = SelectField("Class", 
-    choices=[("cleric", "Cleric"), ("druid", "Druid"), ("fighter", "Fighter")], 
+    choices=[("bard", "Bard"), ("barbarian", "Barbarian"), ("cleric", "Cleric"), 
+            ("druid", "Druid"), ("fighter", "Fighter"), ("monk", "Monk"),
+            ("paladin", "Paladin"), ("ranger", "Ranger"), ("rogue", "Rogue"),
+            ("sorcerer", "Sorcerer"), ("warlock", "Warlock"), ("wizard", "Wizard")], 
     validators=[InputRequired()])
 
     race = SelectField("Race", 
-    choices=[("dwarf", "Dwarf"), ("high-elf", "High-Elf"), ("human", "Human")], 
+    choices=[("dwarf", "Dwarf"), ("high-elf", "High-Elf"), ("human", "Human"),
+            ("tiefling", "Tiefling")], 
     validators=[InputRequired()])
 
     background = SelectField("Background", 
-    choices=[("acolyte", "Acolyte"), ("noble", "Noble"), ("sailor", "Sailor")], 
+    choices=[("acolyte", "Acolyte"), ("noble", "Noble"), ("sailor", "Sailor"),
+            ("outlander", "Outlander"), ("criminal", "Criminal"), ("entertainer", "Entertainer"),
+            ("sage", "Sage"), ("pirate", "Pirate"), ("knight", "Knight")], 
     validators=[InputRequired()])
 
     equipment = SelectField("Equipment", 
@@ -39,7 +45,7 @@ class CharacterForm(FlaskForm):
 class CampaignForm(FlaskForm):
 
     title = StringField("Campaign Name", validators=[InputRequired()])
-    description = StringField("Campaign Description")
+    description = TextAreaField("Campaign Description")
     max_players = SelectField("Max Players", choices=[(3, "3"), (4, "4"), (5, "5"), (6, "6")])
 
 

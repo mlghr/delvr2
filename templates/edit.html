@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block title %}Campaigns{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="row edit-title">Edit - {{ character.name }}</div>
+  <form method="POST">
+      {{ form.hidden_tag() }} <!--add type=hidden form fields -->
+    
+      {% for field in form
+             if field.widget.input_type != 'hidden' %}
+    
+        <div class="row">
+          {% if field.label == "Character Name" %}
+            <div class="col" placeholder="{{ character.name }} "></div>
+          {% endif %}
+            {{ field.label(class_="form-label") }}
+              <div class="col">       
+            {{ field(class_="form-field")}}
+            </div>
+        </div>
+          {% for error in field.errors %}
+            {{ error }}
+          {% endfor %}
+      {% endfor %}
+      <button class="btn create-btn" type="submit">Save Changes</button>
+    </form>
+
+    <form action="/characters">
+        <button class="btn back-btn">Go back</button>
+    </form>
+</div>
+
+{% endblock %}
