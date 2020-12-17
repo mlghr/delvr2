@@ -8,7 +8,6 @@ db = SQLAlchemy()
 bcrypt = Bcrypt() 
 
 
-
 def connect_db(app):
     """CONNECT TO DB"""
 
@@ -106,6 +105,7 @@ class User(db.Model):
 
     campaign = db.relationship("Campaign", backref="user")
 
+    #POSSIBLE CHARACTER -> CAMPAIGN RELATION
     #character = db.relationship(
     #    "Character",
     #    secondary="enrolled",
