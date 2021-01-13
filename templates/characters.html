@@ -6,17 +6,16 @@
 
 <div class="container px-5">
     <h1 class="text-center">Characters</h1>
+    <div class="container text-center">
+      <form class="text-center" action="/characters/new" style="display:inline-block">
+          <button id="char-btn" class="btn campaign-create-btn">Create New</button>
+      </form>
+      <form class="text-center" action="/campaigns" style="display:inline-block">
+          <button id="camp-btn" class="btn characters-view-btn" style="padding-right: 150px;">View Campaigns</button>
+      </form>
+    </div>
 
         <ul>
-            <div class="container text-center">
-                <form class="text-center" action="/characters/new" style="display:inline-block">
-                    <button id="char-btn" class="btn btn-success">Create New</button>
-                </form>
-                <form class="text-center" action="/campaigns" style="display:inline-block">
-                    <button id="camp-btn" class="btn btn-success">View Campaigns</button>
-                </form>
-            </div>
-
             {% for c in characters %}
                 {% if session['user_id'] == c.user_id %}
                 <div class="card character-card">
@@ -39,7 +38,6 @@
                         <p class="card-text">
                            Hails from the land of <b>{{c.origin.capitalize()}}</b>
                         </p>
-                        <i>{{ c.user.username }}</i> created <b>{{ c.name.capitalize() }}</b>
                         <div class="text-center">
                             <form class="text-center my-4" action="/characters/{{ c.id }}/delete" style="display:inline-block">
                                 <button class="btn btn-danger">Delete</button>
@@ -100,7 +98,7 @@
                         <li>**_Walking speed_**{{speed}}</li>
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                 </div>
               </div>
             </div>

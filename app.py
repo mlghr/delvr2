@@ -1,6 +1,5 @@
 from flask import Flask, render_template, redirect, session, flash, request
 import requests
-from flask_debugtoolbar import DebugToolbarExtension
 from models import connect_db, db, User, Character, Campaign
 from forms import UserForm, CharacterForm, CampaignForm
 from sqlalchemy.exc import IntegrityError
@@ -11,18 +10,17 @@ app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get('DATABASE_URL', "postgres:///dnd_db")
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["SQLALCHEMY_ECHO"] = True
-app.config["SECRET_KEY"] = os.environ.get('SECRET_KEY',"secret1")
-
-app.config["DEBUG_TB_INTERCEPT_REDIRECTS"] = False
+app.config["SECRET_KEY"] = os.environ.get('SECRET_KEY',"secret1") #heroku issue?
 
 connect_db(app)
 db.create_all()
 
-toolbar = DebugToolbarExtension(app)
-
 @app.route('/')
 def home_page():
+    
     return render_template('home.html')
+
+# add timeout token expire to login
 
 @app.route('/login', methods=['GET', 'POST'])
 def login_user():
@@ -32,9 +30,11 @@ def login_user():
         password = form.password.data
 
         user = User.authenticate(username, password)
+        
         if user:
             flash(f"Welcome Back, {user.username}!")
             session['user_id'] = user.id
+
             return redirect('/characters')
         else: 
             form.username.errors = ['Invalid username/password.']
@@ -44,6 +44,7 @@ def login_user():
 @app.route('/logout')
 def logout_user():
     session.pop('user_id')
+    session['user_in_session'] = False
     return redirect('/')
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -110,6 +111,17 @@ def show_characters():
     characters = Character.query.all()
     baseURL = 'https://api.open5e.com'
 
+    c_list = []
+    r_list = []
+
+    for character in characters:
+        c = character.c_class
+        r = character.race
+        class_res = requests.get(f'{baseURL}/classes/{c}').json()
+        race_res = requests.get(f'{baseURL}/races/{r}').json()
+        c_list.append(class_res)
+        r_list.append(race_res)
+
     class_res = requests.get(f'{baseURL}/classes/bard').json()
     race_res = requests.get(f'{baseURL}/races/dwarf').json()
     
@@ -158,8 +170,9 @@ def edit_character(character_id):
 
         db.session.commit()
         return redirect("/characters")
+
     if character.user_id == session['user_id']:
-        return render_template('edit.html', character=character, form=form)
+        return render_template('character_edit.html', character=character, form=form)
 
 @app.route('/characters/<int:character_id>/enroll', methods=['GET', 'POST'])
 def enroll_character(character_id):
@@ -222,7 +235,7 @@ def create_campaign():
     
     return render_template('new_campaign.html', form=form)
 
-@app.route('/campaigns/<int:campaign_id>/add-character/<int:character_id>me', methods=['GET', 'POST'])
+@app.route('/campaigns/<int:campaign_id>/add-character/<int:character_id>', methods=['GET', 'POST'])
 def add_character_to_campaign(character_id, campaign_id):
     """Adds one character to the campaign list and stores character in enrolled table"""
     if "user_id" not in session:
@@ -256,8 +269,8 @@ def view_one_campaign(campaign_id):
 
     characters = Character.query.all()
     campaign = Campaign.query.get_or_404(campaign_id)
-    if campaign.user_id == session['user_id']:
-        return render_template('campaign_details.html', campaign=campaign, characters=characters)
+
+    return render_template('campaign_details.html', campaign=campaign, characters=characters)
 
 @app.route('/campaigns/<int:campaign_id>/edit', methods=['POST'])
 def edit_campaign(campaign_id):

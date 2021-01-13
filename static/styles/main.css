@@ -3,7 +3,7 @@
 @font-face {
     font-family: medieval;
     src: url('/static/fonts/MedievalSharp-Regular.ttf');
-    }
+}
 
 /* General HTML elements */
 
@@ -54,7 +54,7 @@ h2 {
 
 .create-btn {
     font-size: 20px;
-    background-color: F1DB4B;
+    background-color: #F1DB4B;
     /* background-color: AB92BF; */
     padding: 10px 20px;
     border-radius: 5px;
@@ -78,6 +78,7 @@ h2 {
     white-space: nowrap;
 }
 
+
 .characters-view-btn {
     text-align: center;
     font-size: 25px;
@@ -95,7 +96,7 @@ h2 {
 .back-btn {
     font-size: 20px;
     text-align: center;
-    background-color: A23E48;
+    background-color: #A23E48;
     padding: 10px 20px;
     border-radius: 5px;
     display: block;
@@ -121,6 +122,7 @@ h2 {
     margin: 10px auto 0px auto;
 }
 
+
 /* Miscellaneous */
 
 #tag-line {
@@ -137,10 +139,6 @@ h2 {
     border-bottom: solid;
     border-color: black;
     border-width: thin;
-}
-
-#no-account {
-    font-style: oblique;
 }
 
 /* Form styling */

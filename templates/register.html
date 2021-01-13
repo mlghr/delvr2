@@ -2,8 +2,11 @@
 {% block title %}Register{% endblock %}
 
 {% block content %}
-<h1 class="display-1 text-center">Sign Up!</h1>
-<p class="lead text-center border-bottom"><strong>Register to join</strong></p>
+<h1 class="display-1 text-center">Register</h1>
+<div class="container">
+    <h2 id="has-account" class="display-5 text-center">Already have an account?</h2>
+    <a href="/login" class="btn login-btn text-center">Login</a>
+</div>
 <div class="container">
     <form method="POST" style="padding-right: 150px;
                                 padding-left: 150px; 
@@ -13,20 +16,14 @@
        {% for field in form
         if field.widget.input_type != 'hidden' %}
            <p>
-               {{ field.label }}
+               {{ field.label(class_="form-label") }}
                {{ field(class_="form-control") }} 
            {% for error in field.errors %}
                {{error}}
            {% endfor %}
            </p>
        {% endfor %}
-       <button class="btn btn-success" type="submit">Register</button>
-    </form>
-
-    <form action="/login" style="padding-right: 150px;
-                                padding-left: 150px; 
-                                margin: auto;">
-        <button class="btn btn-primary">Login</button>
+       <button class="btn register-btn float-left" type="submit">Register</button>
     </form>
 </div>
 {% endblock %}
