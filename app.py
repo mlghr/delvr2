@@ -7,7 +7,8 @@ import os
 
 
 app = Flask(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get('DATABASE_URL', "postgres:///dnd_db")
+# app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get('DATABASE_URL', "postgres:///dnd_db")
+app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get('DATABASE_URL', "postgres://itymgibvtouzay:7bd8ca123571e0c3caed8428e72724f65a10e39acc3a616ba08fa428aafe4bdd@ec2-54-157-12-250.compute-1.amazonaws.com:5432/dbun9evshosrda")
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["SQLALCHEMY_ECHO"] = True
 app.config["SECRET_KEY"] = os.environ.get('SECRET_KEY',"secret1") #heroku issue?
