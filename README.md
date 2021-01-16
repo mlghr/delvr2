@@ -1,8 +1,9 @@
 # Delvr 
 is a DnD character creation application, made with Python3 and Flask as the framework and SQLAlchemy as the database ORM. 
 
-![alt text](https://github.com/mlghr/delvr2/blob/main/images/home.jpg?raw=true)
-![alt text](https://github.com/mlghr/delvr2/blob/main/images/character_view.jpg?raw=true)
+![home](https://user-images.githubusercontent.com/64651384/104807218-230f9e80-5792-11eb-9b91-9d38160b83ed.png)
+![character_view](https://user-images.githubusercontent.com/64651384/104807219-24d96200-5792-11eb-9eb7-527245754666.png)
+
 
 # Installation
 install postgresql
