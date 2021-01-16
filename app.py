@@ -114,13 +114,13 @@ def show_characters():
     c_list = []
     r_list = []
 
-    for character in characters:
-        c = character.c_class
-        r = character.race
-        class_res = requests.get(f'{baseURL}/classes/{c}').json()
-        race_res = requests.get(f'{baseURL}/races/{r}').json()
-        c_list.append(class_res)
-        r_list.append(race_res)
+    # for character in characters:
+    #     c = character.c_class
+    #     r = character.race
+    #     class_res = requests.get(f'{baseURL}/classes/{c}').json()
+    #     race_res = requests.get(f'{baseURL}/races/{r}').json()
+    #     c_list.append(class_res)
+    #     r_list.append(race_res)
 
     class_res = requests.get(f'{baseURL}/classes/bard').json()
     race_res = requests.get(f'{baseURL}/races/dwarf').json()

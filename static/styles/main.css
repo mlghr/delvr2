@@ -30,6 +30,27 @@ h2 {
 
 /* Buttons */
 
+.home-login-btn {
+    font-size: 30px;
+    background-color: #F1DB4B;
+    padding: 10px 20px;
+    border-radius: 5px;
+    display: block;
+    width: 130px;
+    margin: 100px 50px 0px auto;
+}
+
+.home-register-btn {
+    font-size: 30px;
+    display: inline-block;
+    background-color: #A23E48;
+    padding: 10px 20px;
+    border-radius: 5px;
+    display: block;
+    width: 150px;
+    margin: 100px 0px -50px 0px;
+}
+
 .login-btn  {
     font-size: 30px;
     background-color: #F1DB4B;
@@ -82,26 +103,38 @@ h2 {
 .characters-view-btn {
     text-align: center;
     font-size: 25px;
+    background-color: #A23E48;
     display: inline-block;
-    background-color:#A23E48;
-    padding: 5px 10px;
     border-radius: 5px;
     display: block;
     width: 190px;
     margin: 10px auto 0px auto;
     white-space: nowrap;
-
 }
 
 .back-btn {
-    font-size: 20px;
+    font-size: 30px;
     text-align: center;
     background-color: #A23E48;
-    padding: 10px 20px;
+    padding: 10px 10px 15px 10px;
     border-radius: 5px;
     display: block;
-    width: 100px;
-    margin: -10px auto 0px auto;
+    width: 150px;
+    margin: -5px auto 0px auto;
+    position: relative;
+    float: left;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.campaign-back-btn {
+    font-size: 30px;
+    text-align: center;
+    background-color: #A23E48;
+    padding: 10px 10px 15px 10px;
+    border-radius: 5px;
+    display: block;
+    margin: -5px 100px 0px 405px;
     position: relative;
     float: left;
     overflow: hidden;
@@ -184,6 +217,18 @@ h2 {
     align-content: center;
     position: relative;
     float: inline-end;
+}
+
+.campaigns-view-btn {
+    background-color: #A23E48;
+    font-size: 25px;
+    margin: 0 0 12px auto;
+    padding: auto;
+}
+
+.character-btn-color {
+    background-color: #785589;
+    color: white;
 }
 
 /* Character and Campaign cards */

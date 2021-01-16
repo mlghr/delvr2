@@ -11,7 +11,7 @@
           <button id="char-btn" class="btn campaign-create-btn">Create New</button>
       </form>
       <form class="text-center" action="/campaigns" style="display:inline-block">
-          <button id="camp-btn" class="btn characters-view-btn" style="padding-right: 150px;">View Campaigns</button>
+          <button id="camp-btn" class="btn campaigns-view-btn">View Campaigns</button>
       </form>
     </div>
 
@@ -22,12 +22,12 @@
                     <div class="card-body">
                         <h2 class="card-title text-center"> <u>{{ c.name.upper() }}</u></h2>
                         <p class="card-text">
-                            Class - <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#c_class-modal">
+                            Class - <button type="button" class="btn character-btn-color" data-toggle="modal" data-target="#c_class-modal">
                                         <b>{{c_name}}</b>
                                     </button>
                                 </p>
                         <p class="card-text">
-                            Race - <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#race-modal">
+                            Race - <button type="button" class="btn character-btn-color" data-toggle="modal" data-target="#race-modal">
                                         <b>{{r_name}}</b>
                                     </button>
                                 </p>
